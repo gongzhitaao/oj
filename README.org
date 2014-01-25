@@ -1,0 +1,9 @@
+
+* Online Judge Problem Report
+
+This repo currently contains my solutions to problems on [[http://poj.org/][POJ]] and [[http://uva.onlinejudge.org/][UVa]].
+
+There is a short summary for each problem:
+
+1. EN: [[http://ojreport.blogspot.com/]]
+2. CN: [[http://www.cppblog.com/gongzhitaao/]]
