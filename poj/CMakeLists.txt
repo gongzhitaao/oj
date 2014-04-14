@@ -1,1 +1,1 @@
-add_executable(poj 1023.cpp)
+add_executable(poj 1036.cpp)
