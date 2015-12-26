@@ -1,0 +1,25 @@
+#+TITLE: Leetcode Summary
+#+AUTHOR: Zhitao Gong
+#+EMAIL: me@gongzhitaao.org
+
+* Dynamic Programming (DP)
+
+  - [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309 Best Time to Buy and Sell Stock with Cooldown]]
+
+    Adpated from [[https://leetcode.com/discuss/72892/very-easy-to-understand-one-pass-solution-with-no-extra-space][@GWTW]] solution.  For day k, there are four states.
+    1. Have stock, do nothing
+    2. Have stock, sell the stock
+    3. Have no stock, do nothing
+    4. Have no stock, buy the stock
+
+    Let =a[k]=, =b[k]=, =c[k]=, =d[k]= denote the maximum profit on
+    day k ending in each of the four states respectively.  The final
+    solution is =max(b[n], c[n])=.
+
+    State transition:
+    1. =a[k + 1] = max(a[k], d[k])=
+    2. =b[k + 1] = max(a[k], d[k]) + P[k + 1] - P[k]=
+    3. =c[k + 1] = max(b[k], c[k])=
+    4. =d[k + 1] = max(c - P[k + 1])=
+
+    Initial values are all zeros.
