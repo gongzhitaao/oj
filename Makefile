@@ -13,4 +13,4 @@ endif
 clean :
 	rm -f a.out
 
-.PHONY : all clean
+.PHONY : all clean main
