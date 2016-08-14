@@ -8,7 +8,7 @@
     },
     "git-author":{
       "position": "bottom",
-      "modifyTpl": "gongzhitaao / {timeStamp}",
+      "modifyTpl": "<a href=\"http://gongzhitaao.org\">gongzhitaao</a> / {timeStamp}",
       "createTpl": false,
       "timeStampFormat": "YYYY-MM-DD HH:mm"
     }
