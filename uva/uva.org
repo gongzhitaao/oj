@@ -1,0 +1,74 @@
+#+TITLE: UVa OJ Summary
+#+AUTHOR: Zhitao Gong
+#+OPTIONS: num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://gongzhitaao.org/orgcss/org.css" />
+
+* 490 Rotating Sentences                                         :easy:adhoc:
+  [2016-07-28 Thu]
+
+  Reserve any spaces.
+
+* 445 Marvelous Mazes                                            :easy:adhoc:
+  [2016-07-29 Fri]
+
+  Store all mazes into a long string and print it when EOF.
+
+* 488 Triangle Wave                                              :easy:adhoc:
+  [2016-07-29 Fri]
+
+  #+BEGIN_QUOTE
+  There is a blank line after each separate waveform, excluding the
+  last one.
+  #+END_QUOTE
+
+  Which means waveform of difference test cases are also separated by
+  a blank line.
+
+  Given the input
+  #+BEGIN_EXAMPLE
+2
+
+2
+2
+
+2
+2
+  #+END_EXAMPLE
+
+  #+BEGIN_EXAMPLE
+Correct:      Incorrect:
+1             1
+22            22
+1             1
+
+1             1
+22            22
+1             1
+              1
+1             22
+22            1
+1
+              1
+1             22
+22            1
+1
+  #+END_EXAMPLE
+
+* 489 Hangman Judge                                              :easy:adhoc:
+  [2016-07-30 Sat]
+
+  Early stop seems necessary, i.e.,
+
+  #+BEGIN_SRC cpp
+if (nerr >= 7 || ncor == ntot) break;
+  #+END_SRC
+
+  ~nerr~ is the number of wrong guesses, ~ncor~ the number of correct
+  guesses.  There might be cases where you could both win and lose if
+  you scan the whole guess string.
+
+* 694 The Collatz Sequence                                       :easy:adhoc:
+  [2016-07-30 Sat]
+
+  The number during computation might be larger than ~int32~, use
+  ~long long~ instead.
