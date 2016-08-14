@@ -1,3 +1,3 @@
-# UVa [sec:uva] #
+# UVa {#sec:uva}
 
-# POJ [sec:poj] #
+# POJ {#sec:poj}
