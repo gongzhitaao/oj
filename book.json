@@ -1,9 +1,20 @@
 {
-  "plugins": ["mathjax", "forkmegithub", "collapsible-chapters", "-sharing"],
+  "plugins": ["mathjax", "git-author", "forkmegithub", "collapsible-chapters", "-sharing"],
+
   "pluginsConfig": {
     "forkmegithub": {
       "color": "green",
       "url": "https://github.com/gongzhitaao/oj"
+    },
+    "git-author":{
+      "position": "bottom",
+      "modifyTpl": "<a href=\"http://gongzhitaao.org\">gongzhitaao</a> / {timeStamp}",
+      "createTpl": false,
+      "timeStampFormat": "YYYY-MM-DD HH:mm"
     }
+  },
+
+  "styles": {
+    "website": "./css/style.css"
   }
 }
