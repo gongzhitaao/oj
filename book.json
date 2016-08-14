@@ -1,5 +1,5 @@
 {
-  "plugins": ["mathjax", "forkmegithub", "-sharing"],
+  "plugins": ["mathjax", "forkmegithub", "collapsible-chapters", "-sharing"],
   "pluginsConfig": {
     "forkmegithub": {
       "color": "green",
