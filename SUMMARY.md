@@ -1,4 +1,4 @@
-# Summary #
+# Summary
 
 - [UVa](README.md#sec:uva)
   - AOAPC I: Beginning Algorithm Contests (Rujia Liu)
