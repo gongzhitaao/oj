@@ -2,7 +2,7 @@
 
 - [UVa](README.md#sec:uva)
   - AOAPC I: Beginning Algorithm Contests (Rujia Liu)
-    - Volume 0. Getting Started
+    - Volume 0. Getting Started [aoapc1-vol0.md]
       - 10055 - Hashmat the Brave Warrior [aoapc1-vol0.md#pro:10055]
 
 - [POJ](README.md#sec:poj)
