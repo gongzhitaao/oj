@@ -1,3 +1,0 @@
-* Online Judge Problem Report
-
-  This repo currently contains my solutions to problems on [[http://poj.org/][POJ]] and [[http://uva.onlinejudge.org/][UVa]].
