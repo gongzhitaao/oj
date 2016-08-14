@@ -1,3 +1,9 @@
 {
-  "plugins": ["mathjax", "toggle-chapters"]
+  "plugins": ["mathjax", "forkmegithub", "-sharing"],
+  "pluginsConfig": {
+    "forkmegithub": {
+      "color": "green",
+      "url": "https://github.com/gongzhitaao/oj"
+    }
+  }
 }
