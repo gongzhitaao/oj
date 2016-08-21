@@ -14,21 +14,16 @@ class Solution {
     if (!root) return ret;
 
     queue<TreeNode*> q;
-    TreeNode* sentinal = new TreeNode(0);
-    int val = 0;
-    q.push(root);
-    q.push(sentinal);
-    for (TreeNode* n; !q.empty(); ) {
-      n = q.front(); q.pop();
-      if (n == sentinal) {
-        ret.push_back(val);
-        if (q.empty()) break;
-        q.push(sentinal);
-      } else {
-        val = n->val;
-        if (n->left) q.push(n->left);
-        if (n->right) q.push(n->right);
+    for (q.push(root); !q.empty(); ) {
+      int n = q.size();
+      int val;
+      for (int i = 0; i < n; ++i) {
+        TreeNode* nd = q.front(); q.pop();
+        val = nd->val;
+        if (nd->left) q.push(nd->left);
+        if (nd->right) q.push(nd->right);
       }
+      ret.push_back(val);
     }
     return ret;
   }

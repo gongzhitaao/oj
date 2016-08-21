@@ -11,15 +11,15 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[int]
         """
-        def _dfs(node, level, q):
-            if node is None: return
-
-            if level >= len(q):
-                q += [node.val]
-
-            _dfs(node.right, level+1, q)
-            _dfs(node.left, level+1, q)
-
         ret = []
-        _dfs(root, 0, ret)
+        if root is None:
+            return ret
+
+        q = [root]
+        while len(q) > 0:
+            ret += [q[-1].val]
+            q = [child
+                 for node in q
+                 for child in [node.left, node.right]
+                 if child is not None]
         return ret
