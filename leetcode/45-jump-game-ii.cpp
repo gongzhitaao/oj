@@ -2,14 +2,12 @@ class Solution {
  public:
   int jump(vector<int>& nums)
   {
-    int step = 0;
-    for (int a = 0, b = 1, c = 0; b < nums.size(); ++step) {
-      for (int i = a; i < b; ++i) {
-        c = max(nums[i] + i + 1, c);
-        if (c >= nums.size()) break;
-      }
-      a = b, b = c;
+    int jumps = 0, a = 0, b = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      b = max(nums[i] + i, b);
+      if (a + 1 >= nums.size()) break;
+      if (i == a) a = b, ++jumps;
     }
-    return step;
+    return jumps;
   }
 };
