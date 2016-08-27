@@ -11,5 +11,5 @@ var calculateMinimumHP = function(dungeon) {
   for (var i = n - 1; i >= 0; --i)
     for (var j = m - 1; j >= 0; --j)
       hp[j] = Math.max(Math.min(hp[j + 1], hp[j]) - dungeon[i][j], 1);
-  return hp[0]
+  return hp[0];
 };
