@@ -12,6 +12,10 @@
 
    [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309]]
 
+** Binary Search
+
+   [[https://leetcode.com/problems/search-insert-position/][35]]
+
 * Problems
 
   Note that the space complexity does not include space for input and
@@ -44,6 +48,13 @@
 +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
    #+END_SRC
 
+** 035 Search Insert Position
+
+   - Time \(O(\log n)\)
+   - Space \(O(1)\)
+
+
+   See the =C++= std implementation of =upper_bound= or =lower_bound=.
 
 ** 309 Best Time to Buy and Sell Stock with Cooldown                     :dp:
 
