@@ -6,7 +6,7 @@
 
 ** Ad Hoc
 
-   [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]]
+   [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]], [[https://leetcode.com/problems/jump-game-ii/][45]]
 
 ** Dynamic Programming (DP)
 
@@ -48,13 +48,18 @@
 +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
    #+END_SRC
 
-** 035 Search Insert Position
+** 035 Search Insert Position                                  :binarysearch:
 
    - Time \(O(\log n)\)
    - Space \(O(1)\)
 
 
    See the =C++= std implementation of =upper_bound= or =lower_bound=.
+
+** 045 Jump Game II                                                   :adhoc:
+
+   - Time \(O(n)\)
+   - Space \(O(1)\)
 
 ** 309 Best Time to Buy and Sell Stock with Cooldown                     :dp:
 
