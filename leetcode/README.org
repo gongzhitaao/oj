@@ -1,10 +1,54 @@
 #+TITLE: Leetcode Summary
-#+AUTHOR: Zhitao Gong
-#+EMAIL: me@gongzhitaao.org
+#+OPTIONS: num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://gongzhitaao.org/orgcss/org.css" />
 
-* Dynamic Programming (DP)
+* Category
 
-** [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309 Best Time to Buy and Sell Stock with Cooldown]]
+** Ad Hoc
+
+   [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]]
+
+** Dynamic Programming (DP)
+
+   [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309]]
+
+* Problems
+
+  Note that the space complexity does not include space for input and
+  output.
+
+** 014 Longest Common Prefix                                          :adhoc:
+
+   \(k\) is the length of longest common prefix.
+   - Time \(O(nk)\)
+   - Space \(O(1)\)
+
+** 015 3Sum                                                           :adhoc:
+
+   - Time \(O(n^2)\)
+   - Space \(O(1)\)
+
+
+   Sort the array first, then use two loops:
+   - outer one =i= ranges =[0, n-3)=
+   - inner one =j= starts from =i=, =k= starts from the end,
+     - if sum is greater than expected, move =k= left,
+     - if sum is less than expected, move =j= right,
+     - otherwise move =j= right and =k= left
+     - until they meet
+
+   #+BEGIN_SRC ditaa :file leetcode-014.png :cmdline -r
+ i         j -->           <-- k
+
++-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
++-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
+   #+END_SRC
+
+
+** 309 Best Time to Buy and Sell Stock with Cooldown                     :dp:
+
+   - Time \(O(n^2)\)
+   - Space \(O(n)\)
 
    Adpated from [[https://leetcode.com/discuss/72892/very-easy-to-understand-one-pass-solution-with-no-extra-space][@GWTW]] solution.  For day k, there are four states.
 
@@ -19,7 +63,6 @@
    stock price on day k.  The final solution is =max(b[n], c[n])=.
 
    State transition:
-
    1. =a[k + 1] = max(a[k], d[k])=
    2. =b[k + 1] = max(a[k], d[k]) + P[k + 1] - P[k]=
    3. =c[k + 1] = max(b[k], c[k])=
