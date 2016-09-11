@@ -61,7 +61,7 @@ gulp.task('optimize-html', function() {
     .pipe(gulp.dest('./build/'));
 });
 
-gulp.task('optimize-img', function() {
+gulp.task('optimize-img', ['optimize-html'], function() {
   var p = ['./**/img/*', '!./node_modules/**/img/*', '!./build/**/img/*'];
   return gulp.src(p)
     .pipe(watch(p, {verbose: true}))

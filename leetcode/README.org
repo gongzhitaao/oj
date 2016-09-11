@@ -41,7 +41,7 @@
      - otherwise move =j= right and =k= left
      - until they meet
 
-   #+BEGIN_SRC ditaa :file leetcode-014.png :cmdline -r
+   #+BEGIN_SRC ditaa :file img/leetcode-014.png :cmdline -r
  i         j -->           <-- k
 
 +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
