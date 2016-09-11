@@ -1,25 +1,16 @@
 #+TITLE: Leetcode Summary
-#+OPTIONS: num:nil
+#+OPTIONS: num:1
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://gongzhitaao.org/orgcss/org.css" />
 
 * Category
 
-** Ad Hoc
-
-   [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]], [[https://leetcode.com/problems/jump-game-ii/][45]], [[https://leetcode.com/problems/insert-interval/][57]], [[https://leetcode.com/problems/subsets/][78]], [[https://leetcode.com/problems/decode-ways/][91]]
-
-** Dynamic Programming (DP)
-
-   [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309]]
-
-** Search
-
-   - Binary search [[https://leetcode.com/problems/search-insert-position/][35]]
-   - Tree search [[https://leetcode.com/problems/binary-tree-right-side-view/][199]], [[https://leetcode.com/problems/path-sum-ii/][113]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node/][116]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/][117]]
-
-** Linked List
-
-   - Slow/fast pointer [[https://leetcode.com/problems/linked-list-cycle-ii/][142]]
+  - Ad Hoc [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]], [[https://leetcode.com/problems/jump-game-ii/][45]], [[https://leetcode.com/problems/insert-interval/][57]], [[https://leetcode.com/problems/subsets/][78]], [[https://leetcode.com/problems/decode-ways/][91]]
+  - Dynamic Programming (DP) [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309]]
+  - Search
+    - Binary search [[https://leetcode.com/problems/search-insert-position/][35]]
+    - Tree search [[https://leetcode.com/problems/binary-tree-right-side-view/][199]], [[https://leetcode.com/problems/path-sum-ii/][113]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node/][116]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/][117]]
+  - Linked List
+    - Slow/fast pointer [[https://leetcode.com/problems/linked-list-cycle-ii/][142]]
 
 * Problems
 
@@ -138,8 +129,8 @@
    - Space \(O(1)\)
 
 
-   Similar to [[#pro:leetcode-116]], we need to keep track of each level's
-   starting node.
+   Similar to [[#pro:leetcode-116][Leetcode 116]], but in addition, we need to keep track of
+   each level's starting node.
 
 ** 142 Linked List Cycle II                                   :slowfastptr:
    :PROPERTIES:
@@ -162,7 +153,7 @@
 
    Search the tree following BFS or DFS.
    - BFS, record the last element at every level.
-   - DFS, right-to-left in-order traverse, record the element when
+   - DFS, right-to-left in-order traverse, record the element whenever
      level increases.
 
 ** 309 Best Time to Buy and Sell Stock with Cooldown                     :dp:
