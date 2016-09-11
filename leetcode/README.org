@@ -6,7 +6,7 @@
 
 ** Ad Hoc
 
-   [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]], [[https://leetcode.com/problems/jump-game-ii/][45]]
+   [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]], [[https://leetcode.com/problems/jump-game-ii/][45]], [[https://leetcode.com/problems/insert-interval/][57]]
 
 ** Dynamic Programming (DP)
 
@@ -57,6 +57,11 @@
    See the =C++= std implementation of =upper_bound= or =lower_bound=.
 
 ** 045 Jump Game II                                                   :adhoc:
+
+   - Time \(O(n)\)
+   - Space \(O(1)\)
+
+** 057 Insert Interval                                                :adhoc:
 
    - Time \(O(n)\)
    - Space \(O(1)\)
