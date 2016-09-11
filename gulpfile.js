@@ -38,7 +38,8 @@ gulp.task('post',
            'optimize-img']);
 
 gulp.task('optimize-html', function() {
-  var p = ['./**/*.html', '!./node_modules/**/*.html', '!./build/**/*.html'];
+  var p = ['./README.html', './**/*.html',
+           '!./node_modules/**/*.html', '!./build/**/*.html'];
   return gulp.src(p)
     .pipe(watch(p, {verbose: true}))
     .pipe(dom(function() {
@@ -62,7 +63,8 @@ gulp.task('optimize-html', function() {
 });
 
 gulp.task('optimize-img', ['optimize-html'], function() {
-  var p = ['./**/img/*', '!./node_modules/**/img/*', '!./build/**/img/*'];
+  var p = ['./**/img/*',
+           '!./node_modules/**/img/*', '!./build/**/img/*'];
   return gulp.src(p)
     .pipe(watch(p, {verbose: true}))
     .pipe(imagemin())
