@@ -5,7 +5,7 @@
 * Category
 
   - Ad Hoc [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]], [[https://leetcode.com/problems/jump-game-ii/][45]], [[https://leetcode.com/problems/insert-interval/][57]], [[https://leetcode.com/problems/subsets/][78]], [[https://leetcode.com/problems/decode-ways/][91]]
-  - Dynamic Programming (DP) [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309]]
+  - Dynamic Programming (DP) [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309]], [[https://leetcode.com/problems/distinct-subsequences/][115]]
   - Search
     - Binary search [[https://leetcode.com/problems/search-insert-position/][35]]
     - Tree search [[https://leetcode.com/problems/binary-tree-right-side-view/][199]], [[https://leetcode.com/problems/path-sum-ii/][113]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node/][116]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/][117]]
@@ -107,6 +107,25 @@
 
    BFS is more space expansive up to a constant factor.
 
+** 115 Distinct Sub-sequences                                            :dp:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-115
+   :END:
+
+   - Time \(O(mn)\) where m is length of =s=, n length of =t=.
+   - Space \(O(mn)\)
+
+
+   Naive divide-and-conquer search fails due to time limit.  This
+   could be solved with DP.
+
+   Suppose \(d[i][j]\) holds the number of solution for =t[0..i-1]=
+   and =s[0..j-1]=, then =d[n][m]= is the final solution.
+
+   State transition: \[d[i][j] = \begin{cases} d[i][j-1] +
+   d[i-1][j-1], & \text{if}\ \text{T}[i-1] = \text{S}[j-1] \\ 1, &
+   \text{otherwise} \end{cases}\]
+
 ** 116 Populating Next Right Pointers in Each Node                      :bfs:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-116
@@ -142,6 +161,7 @@
 
 
    Use slow and fast pointer.
+
 ** 199 Convert Sorted List to Binary Search Tree                    :bfs:dfs:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-199
