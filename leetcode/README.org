@@ -204,3 +204,11 @@
 
 
    Iterate from day 0 and initial values are all zeros.
+
+** 004 Median of Two Sorted Arrays
+
+   - Time \(O(\log(m+n))\)
+   - Space \(O(1)\)
+
+
+   First implement the \(k^{th}\) of two sorted arrays.
