@@ -1,16 +1,7 @@
 #+TITLE: Leetcode Summary
-#+OPTIONS: num:1
+#+OPTIONS: num:nil
+#+STARTUP: content
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://gongzhitaao.org/orgcss/org.css" />
-
-* Category
-
-  - Ad Hoc [[https://leetcode.com/problems/longest-common-prefix/][14]], [[https://leetcode.com/problems/3sum/][15]], [[https://leetcode.com/problems/jump-game-ii/][45]], [[https://leetcode.com/problems/insert-interval/][57]], [[https://leetcode.com/problems/subsets/][78]], [[https://leetcode.com/problems/decode-ways/][91]]
-  - Dynamic Programming (DP) [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/][309]], [[https://leetcode.com/problems/distinct-subsequences/][115]]
-  - Search
-    - Binary search [[https://leetcode.com/problems/search-insert-position/][35]]
-    - Tree search [[https://leetcode.com/problems/binary-tree-right-side-view/][199]], [[https://leetcode.com/problems/path-sum-ii/][113]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node/][116]], [[https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/][117]]
-  - Linked List
-    - Slow/fast pointer [[https://leetcode.com/problems/linked-list-cycle-ii/][142]]
 
 * Problems
 
@@ -19,6 +10,40 @@
   - \(n\) denotes the input length unless noted otherwise.
   - In case of graph, \(E\) denotes the number of edges, \(V\) number
     of vertices/nodes.
+
+** 004 Median of Two Sorted Arrays                             :binarysearch:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-004
+   :END:
+
+   - Time \(O(\log(\min(m, n)))\)
+   - Space \(O(1)\)
+
+   A very genius algorithm is detailed in this post [[https://discuss.leetcode.com/topic/16797/very-concise-o-log-min-m-n-iterative-solution-with-detailed-explanation][Very concise
+   O(log(min(M,N))) iterative solution with detailed explanation]].  We
+   could generalize that algorithm to find the \(k\)th element of two
+   sorted arrays in \(O(\log(\min(m,n,k)))\) time.
+
+   Let's assume \(k\) is 0-based.
+
+   - For one sorted array =A= of length \(n\), the \(k\)th element is
+     =A[k]=, which divides the original array into two parts:
+     =A[0..k-1]= and =A[k..n-1]=, i.e., there are exactly \(k\)
+     element on the left of \(k\)th element no greater than =A[k]=.
+   - For two sorted array =A= of length \(n\), =B= of length \(m\),
+     and \(n \geq m\), if we could find positions =p=, =q= in =A= and
+     =B= respectively such that
+     1. =p= \(+\) =q= \(= k\)
+     2. =A[p-1]= \(\leq\) =A[p]= and =A[p-1]= \(\leq\) =B[p]=
+     3. =B[p-1]= \(\leq\) =B[p]= and =B[p-1]= \(\leq\) =A[p]=
+
+     Then we say =z = min(A[p], B[p])= will be the \(k\)th element
+     since there are \(k\) element no greater than =z=.  Note that
+     this formulation applies to arrays with duplicates.
+
+     Since =p= and =q= can be determined from each other, we could do
+     a binary search in the shorter array =B=.  The =C++= code is
+     available [[https://github.com/gongzhitaao/oj/blob/master/leetcode/004-median-of-two-sorted-arrays.cpp][gongzhitaao/oj]].
 
 ** 014 Longest Common Prefix                                          :adhoc:
    :PROPERTIES:
@@ -45,13 +70,6 @@
      - if sum is less than expected, move =j= right,
      - otherwise move =j= right and =k= left
      - until they meet
-
-   #+BEGIN_SRC ditaa :file img/leetcode-014.png :cmdline -r
- i         j -->           <-- k
-
-+-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
-+-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
-   #+END_SRC
 
 ** 035 Search Insert Position                                  :binarysearch:
    :PROPERTIES:
@@ -204,11 +222,3 @@
 
 
    Iterate from day 0 and initial values are all zeros.
-
-** 004 Median of Two Sorted Arrays
-
-   - Time \(O(\log(m+n))\)
-   - Space \(O(1)\)
-
-
-   First implement the \(k^{th}\) of two sorted arrays.

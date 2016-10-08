@@ -1,48 +1,53 @@
-const fs = require('fs');
-const path = require('path');
+const F = require('fs');
+const P = require('path');
+const D = require('del');
+
+const $ = require('gulp');
+const $changed = require('gulp-changed');
+const $dom = require('gulp-dom');
+const $htmlmin = require('gulp-htmlmin');
+const $plumber = require('gulp-plumber');
+const $rename = require('gulp-rename');
 
 const browsersync = require('browser-sync');
+const reload = (done) => {browsersync.reload(); done();};
 
-const gulp = require('gulp');
-
-const dom = require('gulp-dom');
-const htmlmin = require('gulp-htmlmin');
-const imagemin = require('gulp-imagemin');
-const plumber = require('gulp-plumber');
-const rename = require('gulp-rename');
-const watch = require('gulp-watch');
-
-gulp.task('default', ['serve', 'post']);
+$.task('default', $.series(
+  () => D(['./build']), $.parallel(serve, watch)));
 
 // -------------------------------------------------------------------
-// browser-sync
+// watch
 // -------------------------------------------------------------------
 
-gulp.task('serve', function() {
+function watch() {
+  $.watch(['./**/*.html'],
+          {ignoreInitial: false,
+           ignored: ['node_modules/**/*.html', 'build/**/*.html']},
+          $.series(post, reload));
+}
+
+// -------------------------------------------------------------------
+// serve
+// -------------------------------------------------------------------
+
+function serve() {
   browsersync({
     server: './build',
-    port: 4000,
-    files: [
-      "./build/**/*.html",
-      "./build/**/img/*"
-    ]
+    port: 4000
   });
-});
+}
 
 // -------------------------------------------------------------------
 // post
 // -------------------------------------------------------------------
 
-gulp.task('post',
-          ['optimize-html',
-           'optimize-img']);
-
-gulp.task('optimize-html', function() {
-  var p = ['./README.html', './**/*.html',
-           '!./node_modules/**/*.html', '!./build/**/*.html'];
-  return gulp.src(p)
-    .pipe(watch(p, {verbose: true}))
-    .pipe(dom(function() {
+function post () {
+  var p = ['./**/*.html',
+           '!./node_modules/**/*', '!./build/**/*'];
+  return $.src(p)
+    .pipe($changed('./build'))
+    .pipe($plumber())
+    .pipe($dom(function() {
       var doc = this;
       var footnotes = doc.getElementById('footnotes');
       var content = doc.getElementById('content');
@@ -51,31 +56,21 @@ gulp.task('optimize-html', function() {
         content.insertBefore(bibliography, footnotes);
       return doc;
     }))
-    .pipe(htmlmin({
+    .pipe($htmlmin({
       removeComments: true,
       collapseWhitespace: true,
       removeEmptyAttributes: true,
       minifyJS: true,
       minifyCSS: true
     }))
-    .pipe(rename({basename: 'index'}))
-    .pipe(gulp.dest('./build/'));
-});
-
-gulp.task('optimize-img', ['optimize-html'], function() {
-  var p = ['./**/img/*',
-           '!./node_modules/**/img/*', '!./build/**/img/*'];
-  return gulp.src(p)
-    .pipe(watch(p, {verbose: true}))
-    .pipe(imagemin())
-    .pipe(gulp.dest('./build'));
-});
+    .pipe($rename({basename: 'index'}))
+    .pipe($.dest('./build/'));
+}
 
 // -------------------------------------------------------------------
 // deploy
 // -------------------------------------------------------------------
 
-gulp.task('deploy', function(){
-  return gulp.src('./build/**/*')
-    .pipe(gulp.dest('../gh-pages'));
-});
+$.task('deploy', $.series(
+  () => D(['../gh-pages/*'], {force: true}),
+  () => $.src('./build/**/*').pipe($.dest('../gh-pages'))));
