@@ -3,9 +3,14 @@ class Solution {
   int kth_element(int k, vector<int>& A, vector<int>& B)
   {
     if (A.size() < B.size()) return kth_element(k, B, A);
-    if (k >= A.size() + B.size()) return max(A.back(), B.back());
+
     int imin = numeric_limits<int>::min(),
         imax = numeric_limits<int>::max();
+
+    if (k >= A.size() + B.size())
+      return max(A.empty() ? imin : A.back(),
+                 B.empty() ? imin : B.back());
+
     for (int l = 0, h = min(int(B.size() - 1), k); l <= h; ) {
       int m2 = l + (h - l) / 2;
       int m1 = k - m2;
