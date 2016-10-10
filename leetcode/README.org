@@ -180,6 +180,18 @@
 
    Use slow and fast pointer.
 
+** 166 Fraction to Recurring Decimal                                  :adhoc:
+
+   - Time uncertain
+   - Space uncertain
+
+
+   Just perform [[https://en.wikipedia.org/wiki/Long_division][long division]].  As for repeating fraction detection,
+   if we come across the same remainder, then we have a repeating
+   fraction from where remainder occurs first.
+
+   Edge cases: negative case, no negative sign when numerator is 0, no
+   decimal point when no fraction part.
 ** 199 Convert Sorted List to Binary Search Tree                    :bfs:dfs:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-199
