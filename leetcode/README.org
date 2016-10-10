@@ -7,9 +7,9 @@
 
   Some assumptions and notations
   - Space and time complexity *does not* include input and output.
-  - \(n\) denotes the input length unless noted otherwise.
-  - In case of graph, \(E\) denotes the number of edges, \(V\) number
-    of vertices/nodes.
+  - =n= denotes the input length unless noted otherwise.
+  - In case of graph, =E= denotes the number of edges, =V= number of
+    vertices/nodes.
 
 ** 004 Median of Two Sorted Arrays                             :binarysearch:
    :PROPERTIES:
@@ -222,3 +222,13 @@
 
 
    Iterate from day 0 and initial values are all zeros.
+
+** 367 Valid Perfect Square                                    :binarysearch:
+
+   - Time \(O(\logn)\)
+   - Space \(O(1)\)
+
+
+   The input limits to 32-bit integer, therefore,
+   - the running time is actually constant.
+   - be careful about overflow.
