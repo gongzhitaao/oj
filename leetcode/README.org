@@ -114,7 +114,16 @@
    - Time \(O(n)\)
    - Space \(O(1)\)
 
+** 105 Construct Binary Tree from Preorder and Inorder Traversal
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-105
+   :END:
+
+   Same as Leetcode [[#pro:leetcode-106]].
 ** 106 Construct Binary Tree from Inorder and Postorder Traversal
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-106
+   :END:
 
    Time \(O(n^2)\) space \(O(1)\) or
    Time \(O(n)\) space \(O(n)\)
@@ -249,8 +258,11 @@
    Iterate from day 0 and initial values are all zeros.
 
 ** 367 Valid Perfect Square                                    :binarysearch:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-367
+   :END:
 
-   - Time \(O(\logn)\)
+   - Time \(O(\log n)\)
    - Space \(O(1)\)
 
 
