@@ -193,6 +193,22 @@
    Similar to [[#pro:leetcode-116][Leetcode 116]], but in addition, we need to keep track of
    each level's starting node.
 
+** 120 Triangle                                                          :dp:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-120
+   :END:
+
+   - Time \(O(n^2)\)
+   - Space \(O(n)\)
+
+
+   Dynamic programming.  The =sum= holds current sum, then the state
+   transition for =sum[i]= is ~sum[i] = min(sum[i-1], sum[i]) +
+   triangle[i]~.  Be careful to
+   1. backup =sum[i-1]=.
+   2. initialize =sum= to be all maximum integer value except for the
+      first one, which is initialized to 0.
+
 ** 142 Linked List Cycle II                                   :slowfastptr:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-142

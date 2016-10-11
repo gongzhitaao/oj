@@ -71,6 +71,6 @@ function post () {
 // deploy
 // -------------------------------------------------------------------
 
-$.task('deploy', $.series(
+$.task('copy', $.series(
   () => D(['../gh-pages/*'], {force: true}),
   () => $.src('./build/**/*').pipe($.dest('../gh-pages'))));
