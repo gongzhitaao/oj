@@ -114,6 +114,19 @@
    - Time \(O(n)\)
    - Space \(O(1)\)
 
+** 106 Construct Binary Tree from Inorder and Postorder Traversal
+
+   Time \(O(n^2)\) space \(O(1)\) or
+   Time \(O(n)\) space \(O(n)\)
+
+   - The last one in post-order traverse is the parent.
+   - Find the position of the parent in the in-order traverse.
+   - Recursively construct the left and right children.
+
+
+   If we store the all the values' position in a hash map, it runs in
+   \(O(n)\) at the expense of \(O(n)\) space, otherwise it runs in
+   \(O(n^2)\).
 ** 113 Path Sum II                                                  :bfs:dfs:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-113
