@@ -275,6 +275,33 @@
 
    Iterate from day 0 and initial values are all zeros.
 
+** 312 Burst Balloons                                                    :dp:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-312
+   :END:
+
+   - Time \(O(n^3)\)
+   - Space \(O(n^2)\)
+
+
+   If we divide the problem by /first explosion/ position, the
+   subproblems are *not* independent.  However if we divide the
+   problem by /last explosion/ position, then the subproblems are
+   independent.  Let =v[i][j]= denote the max coin required in range
+   =(i,j)= where =i= and =j= are off-bound.  The state transition
+   function is
+
+   \[v[i][j] = \max_k(v[i][j], v[i][k]+v[k][j]+nums[i]\times
+   nums[k]\times nums[j])\]
+
+   where, \(i < k < j\).
+
+   Similar to Floyd-Warshall algorithms we need three nested loops to
+   update the value matrix =v= and =v[0][n+1]= is the final result.
+
+   And as a side note, based on the state transition function, we
+   could see that =v[i][j]= depends on values /below/ and /left/.
+
 ** 367 Valid Perfect Square                                    :binarysearch:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-367
