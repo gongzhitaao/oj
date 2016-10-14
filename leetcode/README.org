@@ -314,3 +314,15 @@
    The input limits to 32-bit integer, therefore,
    - the running time is actually constant.
    - be careful about overflow.
+
+** 368 Largest Divisible Subset                                          :dp:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-368
+   :END:
+
+   First /sort/ the array in ascending order.  Let =v[i]= denote the
+   largest divisible subset ending with =nums[i]=, the state
+   transition function is
+
+   \[v[i] = \max_{v[i].length} \left\{v[i]\bigcup v[j] \,\middle|\,
+   \forall\, nums[i] \equiv 0 \bmod{nums[j]}\right\}\]
