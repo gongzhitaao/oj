@@ -326,3 +326,30 @@
 
    \[v[i] = \max_{v[i].length} \left\{v[i]\bigcup v[j] \,\middle|\,
    \forall\, nums[i] \equiv 0 \bmod{nums[j]}\right\}\]
+
+** 421 Maximum XOR of Two Numbers in an Array                           :xor:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-421
+   :END:
+
+   - Time \(O(31n) = O(n)\)
+   - Space \(O(n)\)
+
+
+   The XOR has a property: if \(c = a\oplus b\), then \(b = c\oplus
+   a\).  This is widely used in swapping two numbers, i.e., \(x = x
+   \oplus y, y = x \oplus y, x = x \oplus y\).
+
+   We construct the solution, \(s\), from most significant bit to the
+   least, bit by bit.  Let \(a_k = a \gg (31 - k)\) denote the \(k\)
+   (0-based) most significant bits for the number \(a\).  Suppose we
+   have already determined \(s_k\), now we want to determine the
+   \(s_{k+1}\).
+
+   - First \(s_{k+1} = s_{k} \ll 1\), i.e., appending 0 to the
+     solution, and change it to 1 if we can using the following steps.
+   - For each element \(a\) in the /array/, store \(a_{k+1}\) in a hash
+     table.
+   - For each element \(a\) in the /hash table/, if \(s_{k+1}\oplus
+     1\oplus a\) is also in the hash table, then we could set the
+     current bit to 1, i.e., \(s_{k+1} = s_{k+1}\oplus 1\).
