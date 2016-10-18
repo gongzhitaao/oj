@@ -82,6 +82,20 @@
 
    See the =C++= std implementation of =upper_bound= or =lower_bound=.
 
+** 039 Combination Sum                                                  :dfs:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-039
+   :END:
+
+   - Time Uncertain
+   - Space Uncertain
+
+
+   Not sure about the complexity of the problem.  It is rather
+   intricate to determine in general.  The idea is simple, i.e.,
+   brutal force with DFS, trying every possible combination.  Note
+   that the problem states that the provides candidates is a /set/, so
+   you do not have to worry about /duplicates/.
 ** 045 Jump Game II                                                   :adhoc:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-045
