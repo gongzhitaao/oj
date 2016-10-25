@@ -316,6 +316,25 @@
    And as a side note, based on the state transition function, we
    could see that =v[i][j]= depends on values /below/ and /left/.
 
+** 340 Longest Substring with At Most K Distinct Characters              :dp:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-340
+   :END:
+
+   - Time uncertain, it seems between \(O(n)\) and \(O(n^2)\).
+   - Space \(O(n)\)
+
+
+   Iterate through the array =A= with two pointers, =i= and =j=.  And
+   =hashmap[j]= contains the count of each character that appears in
+   the longest substring ending at =j=.
+   1. If =A[j+1]= is in the hash map, increment the corresponding
+      count.
+   2. If =A[j+1]= is not in the hash map, insert it into the hash map
+      with count 1, and if the total size of the hash map is larger
+      than =k=, then increment =i= until the size of hash map is no
+      larger than =k=.
+
 ** 367 Valid Perfect Square                                    :binarysearch:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-367
