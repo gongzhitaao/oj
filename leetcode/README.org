@@ -360,6 +360,22 @@
    \[v[i] = \max_{v[i].length} \left\{v[i]\bigcup v[j] \,\middle|\,
    \forall\, nums[i] \equiv 0 \bmod{nums[j]}\right\}\]
 
+** 388 Longest Absolute File Path                                       :dfs:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-388
+   :END:
+
+   - Time \(O(n)\)
+   - Space \(O(n)\)
+
+
+   The string is actually the output of DFS traversal of the directory
+   tree.  The =\n= delimits the end of an item (directory/file) name,
+   while =\t= gives the current level of the item.  Just simulate the
+   DFS traversal, store the current path length (not counting the
+   directory delimiter =/=) at each node.  When ever we reach a file,
+   i.e., a leaf node, update the current max length.
+
 ** 421 Maximum XOR of Two Numbers in an Array                           :xor:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-421
