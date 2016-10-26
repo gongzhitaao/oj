@@ -13,7 +13,7 @@ const browsersync = require('browser-sync');
 const reload = (done) => {browsersync.reload(); done();};
 
 $.task('default', $.series(
-  () => D(['./build']), $.parallel(serve, watch)));
+  () => D(['./build']), post, $.parallel(serve, watch)));
 
 // -------------------------------------------------------------------
 // watch
@@ -21,8 +21,7 @@ $.task('default', $.series(
 
 function watch() {
   $.watch(['./**/*.html'],
-          {ignoreInitial: false,
-           ignored: ['node_modules/**/*.html', 'build/**/*.html']},
+          {ignored: ['node_modules/**/*.html', 'build/**/*.html']},
           $.series(post, reload));
 }
 
