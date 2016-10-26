@@ -260,6 +260,17 @@
    - DFS, right-to-left in-order traverse, record the element whenever
      level increases.
 
+** 308 Range Sum Query 2D - Mutable                                     :bit:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-308
+   :END:
+
+   - Time \(O(\log n)\) for update and sum
+   - Space \(O(n^2)\)
+
+
+   2D binary index tree (Fenwick tree).
+
 ** 309 Best Time to Buy and Sell Stock with Cooldown                     :dp:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-309
