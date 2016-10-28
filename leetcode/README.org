@@ -234,6 +234,18 @@
 
    Use slow and fast pointer.
 
+** 163 Missing Ranges                                                 :adhoc:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-163
+   :END:
+
+   - Time \(O(n)\)
+   - Space \(O(1)\)
+
+
+   Just iterate through the array.  Watch out for edge cases, like
+   empty array, boundary values.
+
 ** 166 Fraction to Recurring Decimal                                  :adhoc:
 
    - Time uncertain
@@ -260,6 +272,19 @@
    - DFS, right-to-left in-order traverse, record the element whenever
      level increases.
 
+** 288 Unique Word Abbreviation                                       :adhoc:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-288
+   :END:
+
+   - Time initialization \(O(n)\), query \(O(1)\)
+   - Space \(O(n)\)
+
+
+   The question is straightforward, however, beware of the definition
+   of "being unique", i.e., either the word itself does not exist in
+   the dictionary or its key does not exist if it is in the
+   dictionary.
 ** 308 Range Sum Query 2D - Mutable                                     :bit:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-308
@@ -413,15 +438,3 @@
    - For each element \(a\) in the /hash table/, if \(s_{k+1}\oplus
      1\oplus a\) is also in the hash table, then we could set the
      current bit to 1, i.e., \(s_{k+1} = s_{k+1}\oplus 1\).
-
-** 163 Missing Ranges                                                 :adhoc:
-   :PROPERTIES:
-   :CUSTOM_ID: pro:leetcode-163
-   :END:
-
-   - Time \(O(n)\)
-   - Space \(O(1)\)
-
-
-   Just iterate through the array.  Watch out for edge cases, like
-   empty array, boundary values.
