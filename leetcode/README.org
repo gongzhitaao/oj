@@ -413,3 +413,15 @@
    - For each element \(a\) in the /hash table/, if \(s_{k+1}\oplus
      1\oplus a\) is also in the hash table, then we could set the
      current bit to 1, i.e., \(s_{k+1} = s_{k+1}\oplus 1\).
+
+** 163 Missing Ranges                                                 :adhoc:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-163
+   :END:
+
+   - Time \(O(n)\)
+   - Space \(O(1)\)
+
+
+   Just iterate through the array.  Watch out for edge cases, like
+   empty array, boundary values.
