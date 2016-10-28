@@ -5,11 +5,8 @@ class Codec
   string encode(vector<string>& strs)
   {
     string ret;
-    for (string& s : strs) {
-      for (char c : s)
-        ret += to_string(int(c)) + " ";
-      ret += "-";
-    }
+    for (string& w : strs)
+      ret += to_string(w.size()) + "|" + w;
     return ret;
   }
 
@@ -17,21 +14,12 @@ class Codec
   vector<string> decode(string s)
   {
     vector<string> ret;
-    int n = 0;
-    string tmp;
-    for (char c : s) {
-      switch (c) {
-        case ' ':
-          tmp += char(n);
-          n = 0;
-          break;
-        case '-':
-          ret.push_back(tmp);
-          tmp = "";
-          break;
-        default:
-          n = n * 10 + (c - '0');
-      }
+    for (int i = 0; i < s.size(); ) {
+      int j = s.find_first_of('|', i);
+      int size = stoi(s.substr(i, j-i));
+      string t = s.substr(j+1, size);
+      ret.push_back(t);
+      i = j + 1 + t.size();
     }
     return ret;
   }
