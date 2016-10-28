@@ -272,6 +272,27 @@
    - DFS, right-to-left in-order traverse, record the element whenever
      level increases.
 
+** 280 Wiggle Sort                                                     :sort:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-280
+   :END:
+
+   - Time \(O(n)\)
+   - Space \(O(1)\)
+
+
+   Let's suppose we are at position =k=, array =A[0..k]= are
+   wiggle-sorted already.
+   - Case 1 =k= is odd :: If ~A[k+1] <= A[K]~, no change needed.  If
+        ~A[k+1] > A[k]~, /after/ swapping ~A[k+1]~ with ~A[k]~, we
+        have ~A[k-1] <= A[k] > A[k+1]~.  So ~A[0..k+1]~ is
+        wiggle-sorted.
+   - Case 2 =k= is even :: Argument similar to the above.
+
+
+   So just sweep through the array, swap any two element that does not
+   satisfy the wiggle condition.
+
 ** 288 Unique Word Abbreviation                                       :adhoc:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-288
@@ -351,6 +372,26 @@
 
    And as a side note, based on the state transition function, we
    could see that =v[i][j]= depends on values /below/ and /left/.
+
+** 324 Wiggle Sort II                                                  :sort:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-324
+   :END:
+
+   This is problem looks similar to [[#pro:leetcode-280][Leetcode 280]].  However the
+   algorithm is drastically different.
+   - [[#pro:leetcode-280][Leetcode 280]], ~nums[0] <= nums[1] >= nums[2] <= nums[3]....~
+   - Leetcode 324, ~nums[0] < nums[1] > nums[2] < nums[3]...~
+
+
+   In other words, for [[#pro:leetcode-280][Leetcode 280]], there are always solutions, while
+   it's not true for this problem.  For example, ~[2,2,2,4,3]~ and
+   ~[2,3,2,4,3]~.  Both satisfy the wiggle sort condition, but only
+   the latter satisfy the wiggle sort II condition.
+
+   Assume the problem is always solvable, we need to find the median
+   of the array, and whatever smaller than the median goes to even
+   positions and the rest goes to odd positions.
 
 ** 340 Longest Substring with At Most K Distinct Characters              :dp:
    :PROPERTIES:
