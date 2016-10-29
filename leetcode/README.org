@@ -54,7 +54,7 @@
    - Time \(O(nk)\)
    - Space \(O(1)\)
 
-** 015 3Sum                                                           :adhoc:
+** 015 3Sum                                                            :3sum:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-015
    :END:
@@ -272,6 +272,31 @@
    - DFS, right-to-left in-order traverse, record the element whenever
      level increases.
 
+** 200 Number of Islands                                    :bfs:disjointset:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-200
+   :END:
+
+   - Time \(O(mn)\)
+   - Space \(O(mn)\)
+
+   Similar to [[#pro:leetcode-305][Leetcode 305]], we can use disjoint-set.  Or we could do a
+   BFS on each land position.
+
+** 259 3Sum Smaller                                                    :3sum:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-259
+   :END:
+
+   - Time \(O(n^2)\)
+   - Space \(O(1)\)
+
+
+   Similar to [[#pro:leetcode-015][Leetcode 015]], we keep two pointer =lo= and =hi= in the
+   inner loop.  The critical observation is if
+   =nums[i] + nums[lo] + nums[hi] < target=, then any =hi= in the
+   range =(lo, hi]= satisfies the condition.
+
 ** 280 Wiggle Sort                                                     :sort:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-280
@@ -306,6 +331,23 @@
    of "being unique", i.e., either the word itself does not exist in
    the dictionary or its key does not exist if it is in the
    dictionary.
+** 305 Number of Islands II                                     :disjointset:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-305
+   :END:
+
+   - Time \(O(k\log mn)\) actually this is the query time, not
+     including the initialization time, which is \(O(mn)\).
+   - Space \(O(mn)\)
+
+
+   Simple application of disjoint-set.  For each new land, first we
+   make itself a set, then union with its neighbors, if any.
+
+   The initial count is 0, for each new land, first we make a set of
+   its own, increment the count.  Then whenever we successfully union
+   it with one of its neighbors, decrement the count.
+
 ** 308 Range Sum Query 2D - Mutable                                     :bit:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-308
@@ -452,6 +494,16 @@
    DFS traversal, store the current path length (not counting the
    directory delimiter =/=) at each node.  When ever we reach a file,
    i.e., a leaf node, update the current max length.
+
+** 394 Decode String                                                    :dfs:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-394
+   :END:
+
+   Time and space are uncertain.
+
+   Expand the string in a DFS fashion, i.e., expand the inner most
+   repeater first.
 
 ** 421 Maximum XOR of Two Numbers in an Array                           :xor:
    :PROPERTIES:
