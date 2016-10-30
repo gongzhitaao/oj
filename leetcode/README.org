@@ -318,6 +318,18 @@
    So just sweep through the array, swap any two element that does not
    satisfy the wiggle condition.
 
+** 286 Walls and Gates                                              :bfs:dfs:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-286
+   :END:
+
+   - Time \(O(mn)\)
+   - Space \(O(mn)\)
+
+
+   Start from each gate, do a BFS or DFS to update the distance for
+   each room.
+
 ** 288 Unique Word Abbreviation                                       :adhoc:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-288

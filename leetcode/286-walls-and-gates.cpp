@@ -3,39 +3,18 @@ class Solution
  public:
   void wallsAndGates(vector<vector<int> >& rooms)
   {
-    if (rooms.empty() || rooms[0].empty())
-      return;
-
-    int nrow = rooms.size(), ncol = rooms[0].size();
-    vector<vector<int> > v(nrow, vector<int>(ncol, -1));
-    queue<tuple<int, int, int> > q;
-    for (int i = 0, k = 0; i < nrow; ++i)
-      for (int j = 0; j < ncol; ++j)
-        if (!rooms[i][j]) {
-          q.push(make_tuple(i, j, 0));
-          bfs(rooms, v, k++, q);
-        }
+    for (int i = 0; i < rooms.size(); ++i)
+      for (int j = 0; j < rooms[0].size(); ++j)
+        if (!rooms[i][j]) dfs(rooms, 0, i, j);
   }
 
-  void bfs(vector<vector<int> >& rooms,
-           vector<vector<int> >& v, int k,
-           queue<tuple<int, int, int> >& q)
+  void dfs(vector<vector<int> >& rooms, int d, int r, int c)
   {
-    int nrow = rooms.size(), ncol = rooms[0].size();
+    if (r<0 || r>=rooms.size() || c<0 || c>=rooms[0].size() ||
+        rooms[r][c]<0 || rooms[r][c]<d) return;
+    rooms[r][c] = d;
     static const vector<int> step = {-1, 0, 1, 0, -1};
-    while (!q.empty()) {
-      tuple<int, int, int> p = q.front(); q.pop();
-      for (int i = 0; i < 4; ++i) {
-        int rr = get<0>(p) + step[i], cc = get<1>(p) + step[i+1];
-        if (0 <= rr && rr < nrow && 0 <= cc && cc < ncol &&
-            rooms[rr][cc] > 0 && v[rr][cc] < k) {
-          v[rr][cc] = k;
-          if (rooms[rr][cc] - 1 > get<2>(p)) {
-            rooms[rr][cc] = get<2>(p) + 1;
-            q.push(make_tuple(rr, cc, rooms[rr][cc]));
-          }
-        }
-      }
-    }
+    for (int i = 0; i < 4; ++i)
+      dfs(rooms, d+1, r+step[i], c+step[i+1]);
   }
 };
