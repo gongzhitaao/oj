@@ -538,6 +538,22 @@
    Expand the string in a DFS fashion, i.e., expand the inner most
    repeater first.
 
+** 406 Queue Reconstruction by Height                                    :dp:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-406
+   :END:
+
+   - Time \(O(n^2)\)
+   - Space \(O(n)\)
+
+
+   Wherever we insert a shorter person has no influence on taller
+   people.  Therefor, sort the people by height in /non-ascending
+   order/, breaking ties by k-value in /ascending order/.  And we will
+   have a independent subproblem.  Suppose we have already have the
+   first =k= persons in a proper order, for the =k+1= person with =n=
+   people in front of him, just insert it in position =n=.
+
 ** 421 Maximum XOR of Two Numbers in an Array                           :xor:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-421
