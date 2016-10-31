@@ -283,6 +283,27 @@
    Similar to [[#pro:leetcode-305][Leetcode 305]], we can use disjoint-set.  Or we could do a
    BFS on each land position.
 
+** 218 The Skyline Problem                                    :divideconquer:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-218
+   :END:
+
+   - Time \(O(n\log n)\)
+   - Space \(O(n)\)
+
+
+   Naive solution is to create skyline for each building and merge
+   them one by one, which runs in \(O(n^2)\) when all buildings are
+   disjoint.
+
+   Improved version is to use merge-sort idea, split the problem into
+   two half problem and merge the solutions.  How to merge
+   sub-skylines?  Similar to merge-sort, start from the first elements
+   of two skylines, compare the X coordinates, pick the smaller one,
+   height is maximum of current heights from both skylines.  If the new
+   height is the same as old one, do not insert it as it will result
+   in a consecutive horizontal lines of equal height.
+
 ** 259 3Sum Smaller                                                    :3sum:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-259
