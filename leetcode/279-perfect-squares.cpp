@@ -3,21 +3,14 @@ class Solution
  public:
   int numSquares(int n)
   {
-    vector<int> cnt(n, 0);
-    return dp(n, cnt);
-  }
-
-  int dp(int n, vector<int>& cnt)
-  {
-    if (0 >= n) return 0;
-    if (1 == n) return 1;
-    if (cnt[n-1] > 0) return cnt[n-1];
-
-    int mincnt = n;
-    for (int i = 2; i <= sqrt(n); ++i) {
-      int cur = dp(n-i*i, cnt) + 1;
-      if (cur < mincnt) mincnt = cur;
+    vector<int> cnt{0};
+    while (cnt.size() <= n) {
+      int m = cnt.size();
+      int mincnt = numeric_limits<int>::max();
+      for (int i = 1; i*i <= m; ++i)
+        mincnt = min(mincnt, cnt[m-i*i]+1);
+      cnt.push_back(mincnt);
     }
-    return cnt[n-1] = mincnt;
+    return cnt[n];
   }
 };
