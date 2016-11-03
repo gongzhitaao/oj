@@ -5,25 +5,30 @@ class MedianFinder
   // Adds a number into the data structure.
   void addNum(int num)
   {
-    small_.push(num);
-    large_.push(-small_.top());
-    small_.pop();
-    if (small_.size() < large_.size()) {
-      small_.push(-large_.top());
-      large_.pop();
+    buf_.insert(num);
+    int n = buf_.size();
+    if (1 == n) {
+      med_ = buf_.begin();
+    } else {
+      if (num < *med_) {
+        if (!(n & 1)) --med_;
+      } else if (num >= *med_) {
+        if (n & 1) ++med_;
+      }
     }
   }
 
   // Returns the median of current data stream
   double findMedian()
   {
-    return small_.size() > large_.size()
-        ? small_.top()
-        : (small_.top() - large_.top()) / 2.0;
+    return buf_.size() & 1
+        ? *med_
+        : (*med_ + *next(med_)) / 2.0;
   }
 
  private:
-  priority_queue<int> small_, large_;
+  multiset<int> buf_;
+  multiset<int>::iterator med_;
 };
 
 // Your MedianFinder object will be instantiated and called as such:
