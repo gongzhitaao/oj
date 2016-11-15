@@ -12,16 +12,17 @@ class Solution
  public:
   int minMeetingRooms(vector<Interval>& intervals)
   {
-    map<int, int> cnt;
+    if (intervals.empty()) return 0;
+    sort(intervals.begin(), intervals.end(),
+         [](Interval& a, Interval& b) {
+           return a.start < b.start; });
+    priority_queue<int, vector<int>, greater<int> > q;
+    q.push(0);
     for (Interval& itv : intervals) {
-      ++cnt[itv.start];
-      --cnt[itv.end];
+      int e = q.top();
+      if (itv.start >= e) q.pop();
+      q.push(itv.end);
     }
-    int ret = 0, n = 0;
-    for (auto& e : cnt) {
-      n += e.second;
-      if (n > ret) ret = n;
-    }
-    return ret;
+    return q.size();
   }
 };
