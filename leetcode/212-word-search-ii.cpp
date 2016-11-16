@@ -3,8 +3,13 @@ class Solution
  public:
   struct Node {
     bool word;
-    unordered_map<char, Node*> next;
-    Node() : word(false) {}
+    int cnt;
+    array<Node*, 26> next;
+    Node() {
+      cnt = 0;
+      word = false;
+      next.fill(nullptr);
+    }
   };
 
   vector<string>
@@ -18,9 +23,12 @@ class Solution
     for (string& w : words) {
       Node* cur = head;
       for (char c : w) {
-        if (cur->next.find(c) == cur->next.end())
-          cur->next[c] = new Node();
-        cur = cur->next[c];
+        int idx = c - 'a';
+        if (!cur->next[idx]) {
+          cur->next[idx] = new Node();
+          ++(cur->cnt);
+        }
+        cur = cur->next[idx];
       }
       cur->word = true;
     }
@@ -29,11 +37,9 @@ class Solution
     vector<vector<bool> > v(nrow, vector<bool>(ncol, false));
     for (int i = 0; i < nrow; ++i)
       for (int j = 0; j < ncol; ++j)
-        if (head->next.find(board[i][j]) != head->next.end())
-          dfs(board, i, j,
-              head->next[board[i][j]],
-              string()+board[i][j], ret,
-              v);
+        if (head->next[board[i][j]-'a'])
+          dfs(board, i, j, head->next[board[i][j]-'a'],
+              string()+board[i][j], ret, v);
     return ret;
   }
 
@@ -53,16 +59,16 @@ class Solution
     for (int i = 0; i < 4; ++i) {
       int rr = r + step[i], cc = c + step[i+1];
       if (0 <= rr && rr < nrow && 0 <= cc && cc < ncol
-          && !v[rr][cc] &&
-          node->next.find(board[rr][cc]) != node->next.end())
-        if (dfs(board, rr, cc, node->next[board[rr][cc]],
+          && !v[rr][cc] && node->next[board[rr][cc]-'a'])
+        if (dfs(board, rr, cc, node->next[board[rr][cc]-'a'],
                 path+board[rr][cc], ret, v)) {
-          delete node->next[board[rr][cc]];
-          node->next.erase(board[rr][cc]);
+          delete node->next[board[rr][cc]-'a'];
+          node->next[board[rr][cc]-'a'] = nullptr;
+          --node->cnt;
         }
     }
 
     v[r][c] = false;
-    return node->next.empty();
+    return 0 == node->cnt;
   }
 };
