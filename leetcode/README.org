@@ -448,6 +448,29 @@
    And as a side note, based on the state transition function, we
    could see that =v[i][j]= depends on values /below/ and /left/.
 
+** 315 Count of Smaller Numbers After Self                    :bit:mergesort:
+   :PROPERTIES:
+   :CUSTOM_ID: pro:leetcode-315
+   :END:
+
+   Let's forget about the binary index tree for now.  The basic idea
+   is simple.
+
+   1. We maintain a counter array ~count[]~ which stores the count of
+      each element.
+   2. Sort a copy of the original array to Get each element's position
+      after being sorted, stored in a hash map ~h[]~.
+   3. Then traverse the original list in reverse order.
+      1) For each element ~e~, we increment by 1 its counter
+         ~count[h[e]]~.
+      2) Sum all the numbers in the range ~count[0...h[e]-1]~ gives
+         the number of smaller elements after ~e~.
+
+
+   Now this is a classic binary indexed tree problem, update and
+   query.  In the actual implementation, we may not need the counter
+   array at all.  We only need the binary indexed array.
+
 ** 324 Wiggle Sort II                                                  :sort:
    :PROPERTIES:
    :CUSTOM_ID: pro:leetcode-324
@@ -580,26 +603,3 @@
    - For each element \(a\) in the /hash table/, if \(s_{k+1}\oplus
      1\oplus a\) is also in the hash table, then we could set the
      current bit to 1, i.e., \(s_{k+1} = s_{k+1}\oplus 1\).
-
-** 315 Count of Smaller Numbers After Self                    :bit:mergesort:
-   :PROPERTIES:
-   :CUSTOM_ID: pro:leetcode-315
-   :END:
-
-   Let's forget about the binary index tree for now.  The basic idea
-   is simple.
-
-   1. We maintain a counter array ~count[]~ which stores the count of
-      each element.
-   2. Sort a copy of the original array to Get each element's position
-      after being sorted, stored in a hash map ~h[]~.
-   3. Then traverse the original list in reverse order.
-      1) For each element ~e~, we increment by 1 its counter
-         ~count[h[e]]~.
-      2) Sum all the numbers in the range ~count[0...h[e]-1]~ gives
-         the number of smaller elements after ~e~.
-
-
-   Now this is a classic binary indexed tree problem, update and
-   query.  In the actual implementation, we may not need the counter
-   array at all.  We only need the binary indexed array.
