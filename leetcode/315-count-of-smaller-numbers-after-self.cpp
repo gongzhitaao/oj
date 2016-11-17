@@ -4,41 +4,41 @@ class Solution
   vector<int> countSmaller(vector<int>& nums)
   {
     int n = nums.size();
-    vector<int> ret(n, 0);
-    vector<pair<int, int> > tmp;
-    tmp.reserve(n);
-    for (int i = 0; i < n; ++i)
-      tmp.push_back({nums[i], i});
-    mergesort(tmp, ret, 0, nums.size());
+
+    vector<int> vec;
+    std::unique_copy(nums.begin(), nums.end(), back_inserter(vec));
+    sort(vec.begin(), vec.end());
+
+    unordered_map<int, int> pos;
+    for (int i = 0; i < vec.size(); ++i) pos[vec[i]] = i;
+
+    vector<int> ret, bit(n+1, 0);
+    for (int i = n-1; i >= 0; --i) {
+      int p = pos[nums[i]];
+      ret.push_back(getsum(bit, p));
+      update(bit, p+1, 1);
+    }
+
+    reverse(ret.begin(), ret.end());
     return ret;
   }
 
-  void mergesort(vector<pair<int, int> >& nums, vector<int>& cnt,
-                 int i0, int len)
+  int getsum(vector<int>& bit, int i)
   {
-    if (len <= 1) return;
-    int j0 = i0 + len / 2;
-    mergesort(nums, cnt, i0, j0-i0);
-    mergesort(nums, cnt, j0, len-j0+i0);
+    int s = 0;
+    while (i > 0) {
+      s += bit[i];
+      i -= i & -i;
+    }
+    return s;
+  }
 
-    vector<pair<int, int> > buf;
-    buf.reserve(len);
-    int i, j, n = 0;
-    for (i = i0, j = j0; i < j0 && j < i0+len; ) {
-      if (nums[i].first <= nums[j].first) {
-        cnt[nums[i].second] += n;
-        buf.push_back(nums[i++]);
-      } else {
-        ++n;
-        buf.push_back(nums[j++]);
-      }
+  void update(vector<int>& bit, int i, int v)
+  {
+    int n = bit.size();
+    while (i < n) {
+      bit[i] += v;
+      i += i & -i;
     }
-    for (; i < j0; ++i) {
-      cnt[nums[i].second] += n;
-      buf.push_back(nums[i]);
-    }
-    for (; j < i0+len; ++j)
-      buf.push_back(nums[j]);
-    copy(buf.begin(), buf.end(), nums.begin()+i0);
   }
 };
