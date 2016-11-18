@@ -12,17 +12,16 @@ class Solution
  public:
   int kthSmallest(TreeNode* root, int k)
   {
-    vector<int> vec;
-    dfs(root, vec);
-    nth_element(vec.begin(), vec.begin()+k-1, vec.end());
-    return vec[k-1];
+    return inorder(root, k);
   }
 
-  void dfs(TreeNode* node, vector<int>& vec)
+  int inorder(TreeNode* node, int& k)
   {
-    if (!node) return;
-    vec.push_back(node->val);
-    dfs(node->left, vec);
-    dfs(node->right, vec);
+    int x = 0;
+    if (node->left) x = inorder(node->left, k);
+    if (!k) return x;
+    if (!--k) return node->val;
+    if (node->right) return inorder(node->right, k);
+    return 0;
   }
 };
