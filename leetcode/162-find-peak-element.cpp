@@ -3,11 +3,12 @@ class Solution
  public:
   int findPeakElement(vector<int>& nums)
   {
-    int n = nums.size(), left = INT_MIN;
-    for (int i = 0; i < n; left = nums[i++]) {
-      if (left < nums[i] && (i+1 == n || nums[i] > nums[i+1]))
-        return i;
+    int lo, n;
+    for (lo = 0, n = nums.size(); n > 1; ) {
+      int mi = lo + n/2;
+      if (nums[mi] > nums[mi-1]) lo = mi, n -= n/2;
+      else n = n/2;
     }
-    return 0;
+    return lo;
   }
 };
