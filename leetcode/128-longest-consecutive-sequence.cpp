@@ -7,11 +7,13 @@ class Solution
     for (int n : nums) h.insert(n);
 
     int len = 0;
-    for (int n : h) {
-      if (h.find(n-1) != h.end()) continue;
-      int m;
-      for (m = n; h.find(m) != h.end(); ++m);
-      if (m-n > len) len = m - n;
+    while (!h.empty()) {
+      int n = *h.begin(), m, cnt = 0;
+      for (m = n-1; h.find(m) != h.end(); --m) h.erase(m);
+      cnt += n-1 - m;
+      for (m = n; h.find(m) != h.end(); ++m) h.erase(m);
+      cnt += m - n;
+      if (cnt > len) len = cnt;
     }
     return len;
   }
