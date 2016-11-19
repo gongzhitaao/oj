@@ -4,14 +4,20 @@ class Solution
   vector<pair<int, int> >
   kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k)
   {
-    vector<pair<int, int> > ret;
+    struct cmp {
+      bool operator() (pair<int, int>& a, pair<int, int>& b)
+      { return a.first+a.second > b.first+b.second; };
+    };
+
+    priority_queue<pair<int, int>, vector<pair<int, int> >, cmp> q;
     for (int n1 : nums1)
       for (int n2 : nums2)
-        ret.push_back({n1, n2});
-    sort(ret.begin(), ret.end(),
-         [](pair<int, int>& a, pair<int, int>& b)
-         { return a.first+a.second < b.first+b.second; });
-    if (k >= ret.size()) return ret;
-    return vector<pair<int, int> >(ret.begin(), ret.begin()+k);
+        q.push({n1, n2});
+    vector<pair<int, int> > ret;
+    for (int i = 0; i < k && q.size(); ++i) {
+      ret.push_back(q.top());
+      q.pop();
+    }
+    return ret;
   }
 };
