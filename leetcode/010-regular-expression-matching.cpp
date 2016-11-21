@@ -3,53 +3,33 @@ class Solution
  public:
   bool isMatch(string s, string p)
   {
-    return dfs(s, p);
-  }
-
-  bool dfs(string s, string p)
-  {
-    int ns = s.size(), np = p.size();
-
-    if (!ns) {
-      if (!np) return true;
-      if (np % 2) return false;
-      for (int i = 1; i < np; i += 2)
-        if ('*' != p[i]) return false;
-      return true;
+    vector<char> cands;
+    for (int i = 0; i < p.size(); ++i) {
+      if (i+1 < p.size() && '*' == p[i+1])
+        cands.push_back(-p[i++]);
+      else cands.push_back(p[i]);
     }
+    int ns = s.size(), np = cands.size();
 
-    if (!np) return false;
-
-    int i, j;
-    for (i = 0, j = 0; i < ns && j < np; ) {
-      if ('.' == p[j]) {
-        if (j+1 == np) return i+1 == ns;
-        if ('*' == p[j+1]) {
-          for (int k = ns; k >= i; --k) {
-            if (dfs(s.substr(k), p.substr(j+2)))
-              return true;
+    vector<vector<bool> > dp(ns+1, vector<bool>(np+1, false));
+    dp[0][0] = true;
+    for (int i = 0; i <= ns; ++i) {
+      for (int j = 1; j <= np; ++j) {
+        if (cands[j-1] < 0) {
+          if (dp[i][j] = dp[i][j-1]) continue;
+          if ('.' == -cands[j-1] || s[i-1] == -cands[j-1]) {
+            for (int k = i-1;
+                 k >= 0 && ('.' == -cands[j-1] ||
+                            s[k] == -cands[j-1]);
+                 --k)
+              if (dp[i][j] = dp[k][j-1]) break;
           }
-          return false;
+        } else {
+          dp[i][j] = ('.' == cands[j-1] || s[i-1] == cands[j-1]) &&
+                     (i > 0 && dp[i-1][j-1]);
         }
-        ++i, ++j;
-      } else {
-        if (j+1 == np) return i+1 == ns && s[i] == p[j];
-        if ('*' == p[j+1]) {
-          if (s[i] != p[j]) return dfs(s.substr(i), p.substr(j+2));
-          int k;
-          for (k = i + 1; k < ns && s[k] == s[i]; ++k) /* empty */;
-          for (; k >= i; --k) {
-            if (dfs(s.substr(k), p.substr(j+2)))
-              return true;
-          }
-          return false;
-        }
-        if (s[i] != p[j]) return false;
-        ++i, ++j;
       }
     }
-
-    if (j < np) return dfs("", p.substr(j));
-    return false;
+    return dp[ns][np];
   }
 };
