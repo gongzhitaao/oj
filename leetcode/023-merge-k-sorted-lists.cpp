@@ -11,22 +11,31 @@ class Solution {
  public:
   ListNode* mergeKLists(vector<ListNode*>& lists)
   {
-    struct cmp {
-      bool operator()(ListNode* a, ListNode* b)
-      { return a->val > b->val; }
-    };
-    priority_queue<ListNode*, vector<ListNode*>, cmp> q;
-    for (auto lst : lists)
-      if (lst) q.push(lst);
+    if (lists.empty()) return nullptr;
+    return merge(lists, 0, lists.size());
+  }
 
+  ListNode* merge(vector<ListNode*>& lists, int start, int len)
+  {
+    if (1 == len) return lists[start];
+    int half = len / 2;
+    ListNode* left = merge(lists, start, half);
+    ListNode* right = merge(lists, start+half, len-half);
     ListNode* head = new ListNode(0);
-    for (ListNode* cur = head; q.size(); cur = cur->next) {
-      ListNode* t = q.top(); q.pop();
-      cur->next = t;
-      if (t->next) q.push(t->next);
+    ListNode* cur;
+    for (cur = head; left && right; cur = cur->next) {
+      if (left->val < right->val) {
+        cur->next = left;
+        left = left->next;
+      } else {
+        cur->next = right;
+        right = right->next;
+      }
     }
-    ListNode* tmp = head->next;
+    if (left) cur->next = left;
+    else if (right) cur->next = right;
+    cur = head->next;
     delete head;
-    return tmp;
+    return cur;
   }
 };
