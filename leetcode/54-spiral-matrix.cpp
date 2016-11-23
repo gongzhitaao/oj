@@ -10,13 +10,12 @@ class Solution
     const int n = sz[0] * sz[1];
     const vector<int> dir = {0, 1, 0, -1, 0};
     const vector<int> trn = {1, -1, -1, 1, 1};
-    const vector<int> chg = {-1, 0};
     for (int d = 0, i = 0, j = 0; ret.size() < n ; d = (d+1)%4) {
       for (int c = 0; c++ < sz[d%2]; i += dir[d], j += dir[d+1])
         ret.push_back(matrix[i][j]);
       i += trn[d], j += trn[d+1];
-      sz[1] += chg[d%2];
-      sz[0] += chg[(d+1)%2];
+      sz[1] -= (d+1) % 2;
+      sz[0] -= d % 2;
     }
     return ret;
   }
