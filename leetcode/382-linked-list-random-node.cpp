@@ -13,25 +13,18 @@ class Solution {
       at least one node. */
   Solution(ListNode* head)
   {
-    head_ = head;
-    srand(time(0));
+    for (ListNode* cur = head; cur; cur = cur->next)
+      vals_.push_back(cur->val);
   }
 
   /** Returns a random node's value. */
   int getRandom()
   {
-    int cand = head_->val;
-    ListNode* cur = head_;
-    for (int n = 1; cur->next; ++n) {
-      cur = cur->next;
-      if (rand() % (n+1) == n)
-        cand = cur->val;
-    }
-    return cand;
+    return vals_[rand() % vals_.size()];
   }
 
  private:
-  ListNode* head_;
+  vector<int> vals_;
 };
 
 /**
