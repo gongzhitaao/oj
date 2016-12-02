@@ -6,26 +6,27 @@ class Solution
   {
     if (edges.empty()) return {0};
 
-    unordered_map<int, unordered_set<int> > g;
+    vector<unordered_set<int> > g(n, unordered_set<int>());
     for (auto e : edges) {
       g[e.first].insert(e.second);
       g[e.second].insert(e.first);
     }
 
-    while (g.size() > 2) {
-      vector<pair<int, int> > kill;
-      for (auto it = g.begin(); it != g.end(); )
-        if (it->second.size() == 1) {
-          kill.push_back({*(it->second.begin()), it->first});
-          it = g.erase(it);
-        } else ++it;
-      for (auto x : kill)
-        g[x.first].erase(x.second);
+    vector<int> leaves;
+    for (int i = 0; i < n; ++i)
+      if (g[i].size() == 1) leaves.push_back(i);
+
+    while (n > 2) {
+      n -= leaves.size();
+      vector<int> newleaves;
+      for (auto x : leaves) {
+        int y = *(g[x].begin());
+        g[y].erase(x);
+        if (g[y].size() == 1) newleaves.push_back(y);
+      }
+      leaves = newleaves;
     }
 
-    vector<int> ret;
-    for (auto e : g)
-      ret.push_back(e.first);
-    return ret;
+    return leaves;
   }
 };
