@@ -3,18 +3,15 @@ class Solution
  public:
   int combinationSum4(vector<int>& nums, int target)
   {
-    unordered_map<int, int> d;
+    vector<int> d(target+1, -1);
     d[0] = 1;
     search(nums, target, d);
     return d[target];
   }
 
-  int search(vector<int>& nums, int target,
-             unordered_map<int, int>& d)
+  int search(vector<int>& nums, int target, vector<int>& d)
   {
-    if (d.find(target) != d.end())
-      return d[target];
-
+    if (d[target] >= 0) return d[target];
     int cnt = 0;
     for (int n : nums)
       if (target-n >= 0)
