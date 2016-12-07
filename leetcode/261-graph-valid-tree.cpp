@@ -3,26 +3,21 @@ class Solution
  public:
   bool validTree(int n, vector<pair<int, int> >& edges)
   {
-    vector<unordered_set<int> > g(n, unordered_set<int>());
+    vector<int> p(n, -1);
+
+    if (edges.size() != n-1) return false;
     for (auto e : edges) {
-      g[e.first].insert(e.second);
-      g[e.second].insert(e.first);
+      int x = findpar(p, e.first);
+      int y = findpar(p, e.second);
+      if (x == y) return false;
+      p[x] = y;
     }
-    vector<bool> v(n, false);
-    if (!dfs(g, v, 0, -1)) return false;
-    for (bool b : v) if (!b) return false;
     return true;
   }
 
-  bool dfs(vector<unordered_set<int> >& g, vector<bool>& v,
-           int cur, int par)
+  int findpar(vector<int>& p, int cur)
   {
-    v[cur] = true;
-    for (auto nb : g[cur]) {
-      if (nb == par) continue;
-      if (v[nb]) return false;
-      if (!dfs(g, v, nb, cur)) return false;
-    }
-    return true;
+    if (p[cur] < 0) return cur;
+    return p[cur] = findpar(p, p[cur]);
   }
 };
