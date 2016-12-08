@@ -3,27 +3,28 @@ class Solution
  public:
   int countComponents(int n, vector<pair<int, int> >& edges)
   {
-    vector<unordered_set<int> > g(n, unordered_set<int>());
+    vector<int> p(n, -1), r(n, 0);
     for (auto e : edges) {
-      g[e.first].insert(e.second);
-      g[e.second].insert(e.first);
+      int x = findpar(p, e.first);
+      int y = findpar(p, e.second);
+      if (x == y) continue;
+      if (r[x] < r[y]) p[x] = y;
+      else if (r[x] > r[y]) p[y] = x;
+      else p[x] = y, ++r[y];
     }
 
-    vector<bool> v(n, false);
-    queue<int> q;
-    int cnt = 0;
+    unordered_set<int> ret;
     for (int i = 0; i < n; ++i) {
-      if (v[i]) continue;
-      ++cnt;
-      q.push(i);
-      while (!q.empty()) {
-        int cur = q.front(); q.pop();
-        v[cur] = true;
-        for (int nb : g[cur])
-          if (!v[nb]) q.push(nb);
-      }
+      int t = findpar(p, i);
+      if (ret.find(t) == ret.end())
+        ret.insert(t);
     }
+    return ret.size();
+  }
 
-    return cnt;
+  int findpar(vector<int>& p, int cur)
+  {
+    if (p[cur] < 0) return cur;
+    return p[cur] = findpar(p, p[cur]);
   }
 };
