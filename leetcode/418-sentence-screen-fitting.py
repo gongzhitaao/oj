@@ -8,6 +8,14 @@ class Solution(object):
     """
     words = ' '.join(sentence)
     L = len(words)
+    pos = [0] * L
+
+    p = 0
+    for i in range(L):
+      if ' ' == words[i]:
+        p = i + 1
+      pos[i] = p
+
     ind, cnt = 0, 0
     while rows > 0:
       if ind+cols < L:
@@ -20,9 +28,7 @@ class Solution(object):
         cnt += tmp
         ind = cols - tmp*(L+1) - suffix_len - 1
 
-      while ind >= 0 and ' ' != words[ind]:
-        ind -= 1
-      ind += 1
+      ind = 0 if ind < 0 else pos[ind]
 
       rows -= 1
     return cnt
