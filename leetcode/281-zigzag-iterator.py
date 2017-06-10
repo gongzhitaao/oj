@@ -6,41 +6,24 @@ class ZigzagIterator(object):
         :type v1: List[int]
         :type v2: List[int]
         """
-        v = [v1, v2]
-        l = [len(v1), len(v2)]
-        i = [0, 0]
-
-        j, k = 0, 0
-        self._v = [0] * (l[0]+l[1])
-        while i[0] < l[0] and i[1] < l[1]:
-          self._v[k] = v[j][i[j]]
-          i[j] += 1
-          k += 1
-          j = 1 - j
-        while i[0] < l[0]:
-          self._v[k] = v[0][i[0]]
-          k += 1
-          i[0] += 1
-        while i[1] < l[1]:
-          self._v[k] = v[1][i[1]]
-          k += 1
-          i[1] += 1
-
-        self._i = 0
+        self._data = (v[i]
+                      for i in itertools.count()
+                      for v in (v1, v2)
+                      if i < len(v))
+        self._n = len(v1) + len(v2)
 
     def next(self):
         """
         :rtype: int
         """
-        val = self._v[self._i]
-        self._i += 1
-        return val
+        self._n -= 1
+        return next(self._data)
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        return self._i < len(self._v)
+        return self._n > 0
 
 # Your ZigzagIterator object will be instantiated and called as such:
 # i, v = ZigzagIterator(v1, v2), []
