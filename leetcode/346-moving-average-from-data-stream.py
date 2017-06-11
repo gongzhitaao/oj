@@ -5,17 +5,14 @@ class MovingAverage(object):
     Initialize your data structure here.
     :type size: int
     """
-    self._data = []
-    self._size = size
+    self._data = collections.deque(maxlen=size)
 
   def next(self, val):
     """
     :type val: int
     :rtype: float
     """
-    self._data += [val]
-    if len(self._data) > self._size:
-      self._data = self._data[1:]
+    self._data.append(val)
     return 1.0 * sum(self._data) / len(self._data)
 
 
