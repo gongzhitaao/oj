@@ -7,21 +7,14 @@ class Solution(object):
     :rtype: List[str]
     """
     ret = []
-    pre = lower - 1
-    start = lower
+    nums += [upper+1]
+    start = lower - 1
     for num in nums:
-      if pre == num:
-        continue
-      pre = num
-      if start != num:
+      if start+1 < num:
         end = num - 1
-        if start == end:
-          ret += ['{0}'.format(start)]
+        if start+1 == end:
+          ret += ['{0}'.format(end)]
         else:
-          ret += ['{0}->{1}'.format(start, end)]
-      start = num + 1
-    if start < upper:
-      ret += ['{0}->{1}'.format(start, upper)]
-    elif start == upper:
-      ret += ['{0}'.format(start)]
+          ret += ['{0}->{1}'.format(start+1, end)]
+      start = num
     return ret
