@@ -13,17 +13,16 @@ class Solution
       return 1 == cnt;
     }
 
-    string a, b;
-    if (slen + 1 == tlen)
-      a = s, b = t;
-    else if (tlen + 1 == slen)
-      a = t, b = s;
-    else return false;
+    if (abs(slen-tlen) > 1) return false;
 
-    for (int i = 0; i < b.size(); ++i)
-      if (b.substr(0, i) + b.substr(i+1) == a)
-        return true;
-    return false;
+    vector<vector<int>> len(2, vector<int>(tlen+1, 0));
+    for (int i = 1, k; i < slen+1; ++i) {
+      k = i & 1;
+      for (int j = 1; j < tlen+1; ++j)
+        if (s[i-1] == t[j-1]) len[k][j] = len[1-k][j-1] + 1;
+        else len[k][j] = max(len[1-k][j], len[k][j-1]);
+    }
 
+    return len[slen&1][tlen] == slen || len[slen&1][tlen] == tlen;
   }
 };
