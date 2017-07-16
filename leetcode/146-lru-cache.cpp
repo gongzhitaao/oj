@@ -19,7 +19,7 @@ class LRUCache
     return val;
   }
 
-  void set(int key, int value)
+  void put(int key, int value)
   {
     if (kv_.find(key) != kv_.end())
       buf_.erase(kv_[key]);
