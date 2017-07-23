@@ -3,22 +3,21 @@ class Solution
  public:
   int findTargetSumWays(vector<int>& nums, int S)
   {
-    unordered_map<int, int> sumcnt;
+    int sum = 0;
+    for (int n : nums) sum += n;
+    if (sum < S || sum < -S) return 0;
 
-    if (nums.empty()) return 0;
-    ++sumcnt[-nums[0]];
-    ++sumcnt[+nums[0]];
+    sum += S;
+    if (sum & 1) return 0;
+    sum /= 2;
 
-    for (int i = 1; i < nums.size(); ++i) {
-      int n = nums[i];
-      unordered_map<int, int> tmp;
-      for (auto& elm : sumcnt) {
-        tmp[elm.first+n] += elm.second;
-        tmp[elm.first-n] += elm.second;
-      }
-      swap(sumcnt, tmp);
+    vector<int> dp(sum+1, 0);
+    dp[0] = 1;
+    for (int n : nums) {
+      for (int i = sum; i >= n; --i)
+        dp[i] += dp[i-n];
     }
 
-    return sumcnt[S];
+    return dp[sum];
   }
 };
