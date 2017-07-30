@@ -16,29 +16,27 @@ class Solution
     ListNode* dummy = new ListNode(0);
     dummy->next = head;
 
-    for (ListNode *pre = dummy, *rear = pre->next; rear && rear->next;
-         pre = rear, rear = rear->next) {
-      int i = 1;
-      for (ListNode *p = rear->next; i < k && p; ++i, p = rear->next) {
-        rear->next = p->next;
-        p->next = pre->next;
-        pre->next = p;
-      }
-
-      if (i < k) {
-        rear = pre->next;
-        for (ListNode *p = rear->next; p; p = rear->next) {
-          rear->next = p->next;
-          p->next = pre->next;
-          pre->next = p;
-        }
-        break;
-      }
+    for (ListNode *p = dummy, *rear = p->next; rear && rear->next;
+         p = rear, rear = rear->next) {
+      if (reverse_k(p, k) < k)
+        reverse_k(p, k);
     }
 
     head = dummy->next;
     delete dummy;
     return head;
+  }
+
+  inline int reverse_k(ListNode *pre, int k)
+  {
+    int cnt = 1;
+    for (ListNode *rear = pre->next, *p = rear->next;
+         cnt < k && p; ++cnt, p = rear->next) {
+      rear->next = p->next;
+      p->next = pre->next;
+      pre->next = p;
+    }
+    return cnt;
   }
 
 };
