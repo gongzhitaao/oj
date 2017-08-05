@@ -4,33 +4,36 @@ class NumArray
   NumArray(vector<int> nums)
   {
     int n = nums.size();
-    bit_ = vector<int>(n+1, 0);
+    st_.resize(2*n);
+
     for (int i = 0; i < n; ++i)
-      update(i, nums[i]);
+      st_[i+n] = nums[i];
+    for (int i = n-1; i > 0; --i)
+      st_[i] = st_[i*2] + st_[i*2+1];
   }
 
   void update(int i, int val)
   {
-    int diff = val - sumRange(i, i);
-    for (int j = i + 1; j < bit_.size(); j += j & -j)
-      bit_[j] += diff;
+    int n = st_.size() / 2;
+    i += n;
+
+    st_[i] = val;
+    while (i /= 2)
+      st_[i] = st_[i*2] + st_[i*2+1];
   }
 
   int sumRange(int i, int j)
   {
-    return query(j+1) - query(i);
-  }
-
- private:
-  int query(int i)
-  {
+    int n = st_.size() / 2;
     int sum = 0;
-    for (; i > 0; i -= i & -i)
-      sum += bit_[i];
+    for (i += n, j += n; i <= j; i /= 2, j /= 2) {
+      if (i%2) sum += st_[i++];
+      if (j%2 == 0) sum += st_[j--];
+    }
     return sum;
   }
 
-  vector<int> bit_;
+  vector<int> st_;
 };
 
 /**
