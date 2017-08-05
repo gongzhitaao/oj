@@ -1,12 +1,12 @@
 class NumMatrix {
  public:
-  NumMatrix(vector<vector<int> >& matrix)
+  NumMatrix(const vector<vector<int> >& matrix)
   {
     mat_ = matrix;
     int nrow = mat_.size() + 1;
     int ncol = nrow > 1 ? mat_[0].size() + 1 : 1;
 
-    bit_ = vector<vector<int> >(nrow, vector<int>(ncol, 0));
+    bit_ = vector<vector<int>>(nrow, vector<int>(ncol, 0));
 
     for (int i = 1; i < nrow; ++i)
       for (int j = 1; j < ncol; ++j)
@@ -45,8 +45,8 @@ class NumMatrix {
   }
 
  private:
-  vector<vector<int> > mat_;
-  vector<vector<int> > bit_;
+  vector<vector<int>> mat_;
+  vector<vector<int>> bit_;
 };
 
 
