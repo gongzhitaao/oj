@@ -1,36 +1,30 @@
-class Solution {
+class Solution
+{
  public:
-  vector<vector<int> >
-  combinationSum2(vector<int>& candidates, int target)
+  vector<vector<int>> combinationSum2(vector<int>& candidates, int target)
   {
-    vector<bool> avail(candidates.size(), true);
+    vector<vector<int>> ret;
     sort(candidates.begin(), candidates.end());
-    return worker(candidates, avail, target, 0);
+    dfs(candidates, 0, target, {}, ret);
+    return ret;
   }
 
-  vector<vector<int> >
-  worker(const vector<int>& candidates,
-         vector<bool>& avail, int target, int beg)
+  void dfs(const vector<int>& cands, int p0, int target, vector<int> path,
+           vector<vector<int>>& res)
   {
-    vector<vector<int> > ret;
-    for (int i = beg; i < candidates.size(); ++i) {
-      if (!avail[i] || candidates[i] > target) continue;
+    if (!target)
+      return res.push_back(path);
+    if (p0 >= cands.size() || cands[p0] > target)
+      return;
 
-      if (candidates[i] == target) {
-        ret = {{target}};
-      } else {
-        avail[i] = false;
-        vector<vector<int> > res = worker(
-            candidates, avail, target - candidates[i], i + 1);
-        avail[i] = true;
+    int cnt = 0;
+    for (int i = p0; i < cands.size() && cands[p0] == cands[i]; ++i)
+      ++cnt;
 
-        for (auto& vec : res) {
-          vec.push_back(candidates[i]);
-          ret.push_back(vec);
-        }
-      }
+    dfs(cands, p0 + cnt, target, path, res);
+    for (int i = 1; i <= cnt; ++i) {
+      path.push_back(cands[p0]);
+      dfs(cands, p0 + cnt, target -= cands[p0], path, res);
     }
-
-    return ret;
   }
 };
