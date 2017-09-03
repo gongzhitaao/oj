@@ -4,17 +4,19 @@ class Solution
   bool find132pattern(vector<int>& nums)
   {
     const int n = nums.size();
-    for (int i = 1; i < n - 1; ++i) {
-      int l = nums[i];
-      for (int j = 0; j < i; ++j)
-        if (nums[j] < l) l = nums[j];
+    stack<int> stk;
 
-      if (l == nums[i]) continue;
+    for (int i = n - 1, s3 = -1; i >= 0; --i) {
+      if (s3 >= 0 && nums[i] < nums[s3])
+        return true;
 
-      for (int j = i + 1; j < n; ++j)
-        if (nums[j] > l && nums[j] < nums[i])
-          return true;
+      for (; stk.size() && nums[i] > nums[stk.top()]; stk.pop())
+        if (s3 < 0 || nums[stk.top()] > nums[s3])
+          s3 = stk.top();
+
+      stk.push(i);
     }
+
     return false;
   }
 };
