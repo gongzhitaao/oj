@@ -8,8 +8,7 @@ class Solution
   {
     for (int i = 0, j; i < n; ++i) {
       for (j = 0; j < n; ++j) {
-        if (j == i) continue;
-        if (knows(i, j) || !knows(j, i))
+        if (j != i && knows(i, j) || !knows(j, i))
           break;
       }
       if (j == n) return i;
