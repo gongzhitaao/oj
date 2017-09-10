@@ -4,34 +4,40 @@ class Solution
   int reversePairs(vector<int>& nums)
   {
     if (nums.empty()) return 0;
-    vector<long long> tmp(nums.size(), 0);
-    copy(nums.begin(), nums.end(), tmp.begin());
-    return mergecnt(tmp, 0, tmp.size() - 1);
+
+    vector<int> tmp = nums;
+    sort(tmp.begin(), tmp.end());
+
+    vector<int> bit(nums.size() + 1, 0);
+    int cnt = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      cnt += query(bit, 1 + index(tmp, 2ll * nums[i] + 1));
+      update(bit, 1 + index(tmp, nums[i]));
+    }
+
+    return cnt;
   }
 
-  int mergecnt(vector<long long>& nums, int lo, int hi)
+  int query(vector<int>& bit, int i)
   {
-    if (lo == hi) return 0;
+    int ans = 0;
+    for (; i < bit.size(); i += i & -i) ans += bit[i];
+    return ans;
+  }
 
-    int mi = lo + (hi - lo) / 2;
-    int cl = mergecnt(nums, lo, mi);
-    int cr = mergecnt(nums, mi + 1, hi);
+  void update(vector<int>& bit, int i)
+  {
+    for (; i; i -= i & -i) ++bit[i];
+  }
 
-    int cm = 0, i, j, k;
-    for (i = lo, j = mi + 1; i <= mi; ++i) {
-      for (; j <= hi && nums[i] > 2 * nums[j]; ++j);
-      cm += j - mi - 1;
+  int index(vector<int>& tmp, long long n)
+  {
+    int lo = 0, hi = tmp.size() - 1;
+    for (; lo <= hi; ) {
+      int mi = lo + (hi - lo) / 2;
+      if (tmp[mi] < n) lo = mi + 1;
+      else hi = mi - 1;
     }
-
-    vector<long long> tmp(hi - lo + 1, 0);
-    for (i = lo, j = mi + 1, k = 0; i <= mi && j <= hi; ++k) {
-      if (nums[i] < nums[j]) tmp[k] = nums[i++];
-      else tmp[k] = nums[j++];
-    }
-    for (; i <= mi; ++k, ++i) tmp[k] = nums[i];
-    for (; j <= hi; ++k, ++j) tmp[k] = nums[j];
-    copy(tmp.begin(), tmp.end(), nums.begin() + lo);
-
-    return cl + cm + cr;
+    return lo;
   }
 };
