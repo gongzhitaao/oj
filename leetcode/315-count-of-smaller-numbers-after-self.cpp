@@ -3,38 +3,45 @@ class Solution
  public:
   vector<int> countSmaller(vector<int>& nums)
   {
+    if (nums.empty()) return nums;
+
+    vector<int> tmp = nums;
+    sort(tmp.begin(), tmp.end());
+
     const int n = nums.size();
-    vector<int> cnt(n, 0), idx(n, 0);
-    for (int i = 0; i < nums.size(); ++i)
-      idx[i] = i;
-    mergesort(nums, cnt, idx, 0, n - 1);
+
+    vector<int> cnt(n, 0);
+    vector<int> bit(n + 1, 0);
+    for (int i = 0; i < n; ++i) {
+      int p0 = index(tmp, nums[i] + 1ll);
+      int p1 = index(tmp, nums[i]);
+      cnt[i] = p1 - query(bit, p1 + 1);
+      update(bit, p0 + 1);
+    }
+
     return cnt;
   }
 
-  void mergesort(vector<int>& nums, vector<int>& cnt, vector<int>& idx, int lo,
-                 int hi)
+  int query(vector<int>& bit, int i)
   {
-    if (lo >= hi) return;
+    int ans = 0;
+    for (; i; i -= i & -i) ans += bit[i];
+    return ans;
+  }
 
-    int mi = lo + (hi - lo) / 2;
-    mergesort(nums, cnt, idx, lo, mi);
-    mergesort(nums, cnt, idx, mi + 1, hi);
+  void update(vector<int>& bit, int i)
+  {
+    for (; i < bit.size(); i += i & -i) ++bit[i];
+  }
 
-    vector<int> work(hi - lo + 1, 0), idx1(hi - lo + 1, 0);
-
-    int i, j, k, c;
-    for (c = 0, i = lo, j = mi + 1, k = 0; i <= mi && j <= hi; ++k) {
-      if (nums[i] <= nums[j])
-        work[k] = nums[i], idx1[k] = idx[i], ++i, cnt[idx1[k]] += c;
-      else
-        work[k] = nums[j], idx1[k] = idx[j], ++j, ++c;
+  int index(vector<int>& tmp, long long n)
+  {
+    int lo = 0, hi = tmp.size() - 1, mi;
+    for (; lo <= hi; ) {
+      mi = lo + (hi - lo) / 2;
+      if (tmp[mi] < n) lo = mi + 1;
+      else hi = mi - 1;
     }
-    for (; i <= mi; ++k, ++i)
-      work[k] = nums[i], idx1[k] = idx[i], cnt[idx1[k]] += c;
-    for (; j <= hi; ++k, ++j)
-      work[k] = nums[j], idx1[k] = idx[j];
-
-    copy(work.begin(), work.end(), nums.begin() + lo);
-    copy(idx1.begin(), idx1.end(), idx.begin() + lo);
+    return lo;
   }
 };
