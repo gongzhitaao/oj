@@ -3,32 +3,40 @@ class Solution
  public:
   int countRangeSum(vector<int>& nums, int lower, int upper)
   {
-    return mergecnt(nums, lower, upper, 0, nums.size() - 1);
+    if (nums.empty()) return 0;
+    const int n = nums.size();
+
+    vector<long long> sums(n + 1, 0);
+    for (int i = 0; i < n; ++i) sums[i + 1] = nums[i] + sums[i];
+
+    return mergecnt(sums, lower, upper, 0, n);
   }
 
-  int mergecnt(vector<int>& nums, int lower, int upper, int lo, int hi)
+  int mergecnt(vector<long long>& sums, int lower, int upper, int lo, int hi)
   {
-    if (lo > hi) return 0;
-    if (lo == hi) return lower <= nums[lo] && nums[lo] <= upper;
+    if (lo == hi) return 0;
 
     int mi = lo + (hi - lo) / 2;
+    int cl = mergecnt(sums, lower, upper, lo, mi);
+    int cr = mergecnt(sums, lower, upper, mi + 1, hi);
 
-    vector<long long> lsum;
-    for (long long i = mi, sum = 0; i >= lo; --i)
-      lsum.push_back(sum += nums[i]);
-    sort(lsum.begin(), lsum.end());
-
-    int cnt = 0;
-    for (long long j = mi + 1, sum = 0; j <= hi; ++j) {
-      sum += nums[j];
-      auto start = lower_bound(lsum.begin(), lsum.end(), lower - sum);
-      auto end = upper_bound(lsum.begin(), lsum.end(), upper - sum);
-      cnt += distance(start, end);
+    int cm = 0, i, j, k;
+    for (k = lo, i = j = mi + 1; k <= mi; ++k) {
+      for (; i <= hi && sums[i] - sums[k] < lower; ++i);
+      for (; j <= hi && sums[j] - sums[k] <= upper; ++j);
+      cm += j - i;
     }
 
-    int lcnt = mergecnt(nums, lower, upper, lo, mi);
-    int rcnt = mergecnt(nums, lower, upper, mi + 1, hi);
+    vector<long long> tmp(hi - lo + 1, 0);
+    for (i = lo, j = mi + 1, k = 0; i <= mi && j <= hi; ++k) {
+      if (sums[i] < sums[j]) tmp[k] = sums[i++];
+      else tmp[k] = sums[j++];
+    }
+    for (; i <= mi; ++k, ++i) tmp[k] = sums[i];
+    for (; j <= hi; ++k, ++j) tmp[k] = sums[j];
 
-    return cnt + lcnt + rcnt;
+    copy(tmp.begin(), tmp.end(), sums.begin() + lo);
+
+    return cl + cm + cr;
   }
 };
