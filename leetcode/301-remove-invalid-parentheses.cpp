@@ -1,29 +1,56 @@
-class Solution {
+#include <queue>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+class Solution
+{
  public:
-  void dfs(string s, char ch, int start)
-  {
-    for (int i = max(0, start - 1), cnt = 0; i < s.size(); ++i) {
-      if ('(' == s[i] || ')' == s[i])
-        s[i] == ch ? ++cnt : --cnt;
-      if (cnt <= 0) continue;
-      for (int j = start; j <= i; ++j) {
-        if (s[j] == ch && (j == start || s[j - 1] != ch))
-          dfs(s.substr(0, j) + s.substr(j + 1), ch, j);
-      }
-      return;
-    }
-
-    reverse(s.begin(), s.end());
-    if (')' == ch) dfs(s, '(', 0);
-    else ret.push_back(s);
-  }
-
   vector<string> removeInvalidParentheses(string s)
   {
-    dfs(s, ')', 0);
+    queue<string> q0, q1;
+    unordered_set<string> visited;
+
+    for (q0.push(s); q0.size();) {
+      string s = q0.front();
+
+      if (isvalid(s)) break;
+      q0.pop();
+
+      for (int i = 0; i < s.size(); ++i) {
+        if ('(' == s[i] || ')' == s[i]) {
+          string child = s.substr(0, i) + s.substr(i + 1);
+          if (visited.find(child) == visited.end()) {
+            q1.push(child);
+            visited.insert(child);
+          }
+        }
+      }
+
+      if (q0.empty()) swap(q0, q1);
+    }
+
+    vector<string> ret;
+    for (; q0.size(); q0.pop()) {
+      string s = q0.front();
+      if (isvalid(s)) ret.push_back(s);
+    }
+
     return ret;
   }
 
- private:
-  vector<string> ret;
+  inline bool isvalid(const string& s)
+  {
+    int cnt = 0;
+    for (char c : s) {
+      if ('(' == c)
+        ++cnt;
+      else if (')' == c)
+        --cnt;
+      if (cnt < 0) return false;
+    }
+    return 0 == cnt;
+  }
 };
+
+// Just do BFS or DFS in a naive way, no way to lower the time complexity.
