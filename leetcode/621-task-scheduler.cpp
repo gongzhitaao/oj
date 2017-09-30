@@ -3,13 +3,15 @@ class Solution
  public:
   int leastInterval(vector<char>& tasks, int n)
   {
-    unordered_map<char, int> cnt;
-    for (char t : tasks) ++cnt[t];
+    vector<int> cnt(26, 0);
+    for (char ch : tasks) ++cnt[ch - 'A'];
 
-    map<int, int> freq;
-    for (auto& elm : cnt) ++freq[elm.second];
+    sort(cnt.begin(), cnt.end());
 
-    int l = freq.rbegin()->first, f = freq.rbegin()->second;
-    return max((int)tasks.size(), (l - 1) * n + l + f - 1);
+    int i;
+    for (i = 25; i >= 0 && cnt[i] == cnt[25]; --i)
+      ;
+
+    return max(int(tasks.size()), (cnt[25] - 1) * (n + 1) + 25 - i);
   }
 };
