@@ -1,30 +1,33 @@
-class Solution {
-public:
-  string addBinary(string a, string b) {
-    string sum = "";
-    array<int, 4> s = {0, 1, 0, 1};
-    array<int, 4> c = {0, 0, 1, 1};
+class Solution
+{
+ public:
+  string addBinary(string a, string b)
+  {
+    if (a.size() < b.size()) return addBinary(b, a);
+    string ret(a.size() + 1, ' ');
 
-    int carry = 0, i;
-    int m = a.size(), n = b.size();
-    for (i = 0; i < m && i < n; ++i) {
-      int t = (a[m - i - 1] - '0') + (b[n - i - 1] - '0') + carry;
-      sum = to_string(s[t]) + sum;
-      carry = c[t];
+    int c = 0;
+    int i = 0, na = a.size() - 1, nb = b.size() - 1;
+
+    for (int ia, ib, ai, bi; i <= nb; ++i) {
+      ia = na - i, ib = nb - i;
+      ai = a[ia] - '0', bi = b[ib] - '0';
+      ret[i] = (ai ^ bi ^ c) + '0';
+      c = (ai & bi) | (c & (ai ^ bi));
     }
 
-    for (int j = i; j < m; ++j) {
-      int t = (a[m - j - 1] - '0') + carry;
-      sum = to_string(s[t]) + sum;
-      carry = c[t];
+    for (int ia, ai; i <= na; ++i) {
+      ia = na - i;
+      ai = a[ia] - '0';
+      ret[i] = (ai ^ c) + '0';
+      c = ai & c;
     }
 
-    for (int j = i; j < n; ++j) {
-      int t = (b[n - j - 1] - '0') + carry;
-      sum = to_string(s[t]) + sum;
-      carry = c[t];
-    }
+    if (c) ret[i] = '1';
 
-    return carry ? to_string(carry) + sum : sum;
+    while (ret.back() == ' ') ret.pop_back();
+    reverse(ret.begin(), ret.end());
+
+    return ret;
   }
 };
