@@ -6,14 +6,14 @@ class Solution
     if (s.empty()) return 0;
 
     s = "xx" + s;
-    vector<int> cnt(s.size(), 0);
-    cnt[0] = cnt[1] = 1;
+    int k2 = 1, k1 = 1, k = 0;
 
     for (int i = 2; i < s.size(); ++i) {
-      if ('1' == s[i - 1] || ('2' == s[i - 1] && s[i] <= '6'))
-        cnt[i] += cnt[i - 2];
-      if (s[i] > '0') cnt[i] += cnt[i - 1];
+      k = 0;
+      if ('1' == s[i - 1] || ('2' == s[i - 1] && s[i] <= '6')) k += k2;
+      if (s[i] > '0') k += k1;
+      k2 = k1, k1 = k;
     }
-    return cnt.back();
+    return k;
   }
 };
