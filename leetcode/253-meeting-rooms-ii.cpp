@@ -12,17 +12,21 @@ class Solution
  public:
   int minMeetingRooms(vector<Interval>& intervals)
   {
-    if (intervals.empty()) return 0;
-    sort(intervals.begin(), intervals.end(),
-         [](Interval& a, Interval& b) {
-           return a.start < b.start; });
-    priority_queue<int, vector<int>, greater<int> > q;
-    q.push(0);
+    auto cmp = [](const Interval& a, const Interval& b) {
+      return a.start < b.start;
+    };
+
+    sort(intervals.begin(), intervals.end(), cmp);
+
+    int maxcnt = 0;
+    priority_queue<int, vector<int>, greater<int>> q;
     for (Interval& itv : intervals) {
-      int e = q.top();
-      if (itv.start >= e) q.pop();
+      for (; q.size() && itv.start >= q.top(); q.pop())
+        ;
       q.push(itv.end);
+      if (q.size() > maxcnt) maxcnt = q.size();
     }
-    return q.size();
+
+    return maxcnt;
   }
 };
