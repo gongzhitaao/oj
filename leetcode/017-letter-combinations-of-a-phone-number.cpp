@@ -3,30 +3,25 @@ class Solution
  public:
   vector<string> letterCombinations(string digits)
   {
+    vector<string> num2ch{"",    "",    "abc",  "def", "ghi",
+                          "jkl", "mno", "pqrs", "tuv", "wxyz"};
     vector<string> ret;
 
-    if (digits.empty())
-      return ret;
+    if (digits.empty()) return ret;
+
     for (char ch : digits)
-      if (ch < '2' || ch > '9')
+      if ('0' == ch || '1' == ch)
         return ret;
 
-    vector<string> dicts{
-      "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
-    };
-
-    dfs(0, "", digits, dicts, ret);
+    dfs(digits, 0, num2ch, ret, "");
     return ret;
   }
 
- private:
-  void dfs(int i, string path, const string& digits,
-           const vector<string>& dicts, vector<string>& ret)
+  void dfs(const string& digits, int i0, const vector<string>& num2ch,
+           vector<string>& ret, string path)
   {
-    if (i == digits.size())
-      ret.push_back(path);
-
-    for (char ch : dicts[digits[i]-'0'-2])
-      dfs(i+1, path+ch, digits, dicts, ret);
+    if (i0 == digits.size()) return ret.push_back(path);
+    const string& choices = num2ch[digits[i0] - '0'];
+    for (char ch : choices) dfs(digits, i0 + 1, num2ch, ret, path + ch);
   }
 };
