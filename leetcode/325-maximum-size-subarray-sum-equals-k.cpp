@@ -4,19 +4,19 @@ class Solution
   int maxSubArrayLen(vector<int>& nums, int k)
   {
     map<int, int> pos;
-    pos[0] = 0;
-
-    int sum = 0, ret = 0;
-    for (int i = 0; i < nums.size(); ++i) {
+    int maxlen = 0;
+    for (int i = 0, sum = 0; i < nums.size(); ++i) {
       sum += nums[i];
-      if (pos.find(sum - k) != pos.end()) {
-        int len = i - pos[sum - k] + 1;
-        if (len > ret) ret = len;
+      if (sum == k)
+        maxlen = i + 1;
+      else {
+        auto it = pos.find(sum - k);
+        if (it != pos.end() && i - it->second > maxlen)
+          maxlen = i - it->second;
       }
       if (pos.find(sum) == pos.end())
-        pos[sum] = i + 1;
+        pos[sum] = i;
     }
-
-    return ret;
+    return maxlen;
   }
 };
