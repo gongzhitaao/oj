@@ -10,48 +10,37 @@
 class Solution
 {
  public:
-  vector<vector<int> > verticalOrder(TreeNode* root)
+  vector<vector<int>> verticalOrder(TreeNode* root)
   {
-    if (!root) return vector<vector<int> >();
+    vector<vector<int>> ret;
+    if (!root) return ret;
 
-    typedef list<vector<int> >::iterator ptr_t;
-    list<vector<int> > lst;
+    int l = 0, r = 0;
+    dfs(root, 0, l, r);
 
-    queue<pair<TreeNode*, ptr_t> > q;
-    q.push({nullptr, lst.end()});
-    q.push({root, lst.insert(lst.end(), vector<int>())});
-
-    TreeNode* nd;
-    ptr_t cur;
-
-    while (!q.empty()) {
-      tie(nd, cur) = q.front(); q.pop();
-
-      if (!nd) {
-        if (q.empty()) break;
-        q.push({nullptr, lst.end()});
-        continue;
-      }
-
-      cur->push_back(nd->val);
-
-      if (nd->left) {
-        ptr_t p = prev(cur);
-        if (p == lst.end())
-          p = lst.insert(cur, vector<int>());
-        q.push({nd->left, p});
-      }
-
-      if (nd->right) {
-        ptr_t n = next(cur);
-        if (n == lst.end())
-          n = lst.insert(lst.end(), vector<int>());
-        q.push({nd->right, n});
-      }
+    ret = vector<vector<int>>(r - l + 1, vector<int>());
+    queue<pair<int, TreeNode*>> q, p;
+    int ind;
+    TreeNode* node;
+    for (q.push({-l, root}); q.size(); ) {
+      tie(ind, node) = q.front();
+      q.pop();
+      ret[ind].push_back(node->val);
+      if (node->left) p.push({ind - 1, node->left});
+      if (node->right) p.push({ind + 1, node->right});
+      if (q.empty()) swap(p, q);
     }
 
-    return vector<vector<int> >(
-        make_move_iterator(begin(lst)),
-        make_move_iterator(end(lst)));
+    return ret;
+  }
+
+  void dfs(TreeNode* node, int cur, int& l, int& r)
+  {
+    if (cur < l)
+      l = cur;
+    else if (cur > r)
+      r = cur;
+    if (node->left) dfs(node->left, cur - 1, l, r);
+    if (node->right) dfs(node->right, cur + 1, l, r);
   }
 };
