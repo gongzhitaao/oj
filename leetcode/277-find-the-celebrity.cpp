@@ -6,13 +6,12 @@ class Solution
  public:
   int findCelebrity(int n)
   {
-    int cand = 0;
+    int cand0 = 0;
     for (int i = 1; i < n; ++i)
-      if (knows(cand, i)) cand = i;
-    for (int i = 0; i < cand; ++i)
-      if (!knows(i, cand) || knows(cand, i)) return -1;
-    for (int i = cand + 1; i < n; ++i)
-      if (!knows(i, cand)) return -1;
-    return cand;
+      if (knows(cand0, i)) cand0 = i;
+    int cand1 = n - 1;
+    for (int i = n - 2; i >= 0; --i)
+      if (knows(cand1, i)) cand1 = i;
+    return cand0 == cand1 ? cand0 : -1;
   }
 };
