@@ -1,62 +1,62 @@
 class WordDictionary
 {
-  struct node;
-  typedef shared_ptr<node> nodeptr;
-  struct node {
+  struct Node {
     bool word;
-    unordered_map<char, nodeptr> next;
-    node() : word(false) { }
+    unordered_map<char, Node*> next;
+
+    Node() : word(false) { }
   };
+
+  Node* head_;
 
  public:
   /** Initialize your data structure here. */
   WordDictionary()
   {
-    dict_ = make_shared<node>();
+    head_ = new Node();
   }
 
   /** Adds a word into the data structure. */
   void addWord(string word)
   {
-    nodeptr head = dict_;
-    for (char c : word) {
-      if (head->next.find(c) == head->next.end())
-        head->next[c] = make_shared<node>();
-      head = head->next[c];
+    Node* cur = head_;
+    for (char ch : word) {
+      if (cur->next.find(ch) == cur->next.end())
+        cur->next[ch] = new Node();
+      cur = cur->next[ch];
     }
-    head->word = true;
+    cur->word = true;
   }
 
-  /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+  /** Returns if the word is in the data structure. A word could contain the dot
+   * character '.' to represent any one letter. */
   bool search(string word)
   {
-    if (nullptr == dict_)
-      return false;
-    return dfs(dict_, word, 0);
+    return dfs(head_, word, 0);
   }
 
- private:
-  bool dfs(const nodeptr& cur, const string& word, int pos)
+  bool dfs(Node* cur, const string& word, int i0)
   {
-    if (word.size() == pos)
-      return cur->word;
+    if (i0 == word.size()) return cur->word;
 
-    char c = word[pos];
+    for (int i = i0; i < word.size(); ++i) {
+      char ch = word[i];
 
-    if ('.' == c) {
-      for (auto elm : cur->next)
-        if (dfs(elm.second, word, pos+1))
-          return true;
-      return false;
+      if ('.' == ch) {
+        for (auto elm : cur->next)
+          if (dfs(elm.second, word, i + 1))
+            return true;
+        return false;
+      }
+
+      if (cur->next.find(ch) == cur->next.end())
+        return false;
+
+      cur = cur->next[ch];
     }
 
-    if (cur->next.find(c) != cur->next.end())
-      return dfs(cur->next[c], word, pos+1);
-
-    return false;
+    return cur->word;
   }
-
-  nodeptr dict_;
 };
 
 /**
