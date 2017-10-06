@@ -12,18 +12,17 @@ class Solution
  public:
   int diameterOfBinaryTree(TreeNode* root)
   {
-    int d = 1;
-    dfs(root, d);
-    return d-1;
+    int maxlen = 0;
+    postorder(root, maxlen);
+    return maxlen;
   }
 
-  int dfs(TreeNode* node, int& d)
+  int postorder(TreeNode* cur, int& maxlen)
   {
-    if (!node) return 0;
-    int l = dfs(node->left, d);
-    int r = dfs(node->right, d);
-    if (l + r + 1 > d)
-      d = l + r + 1;
-    return max(l, r) + 1;
+    if (!cur) return -1;
+    int l = 1 + postorder(cur->left, maxlen);
+    int r = 1 + postorder(cur->right, maxlen);
+    if (l + r > maxlen) maxlen = l + r;
+    return max(l, r);
   }
 };
