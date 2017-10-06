@@ -3,18 +3,23 @@ class Solution
  public:
   bool isOneEditDistance(string s, string t)
   {
-    int slen = s.size(), tlen = t.size();
-    int n = min(slen, tlen);
-    for (int i = 0; i < n; ++i) {
-      if (s[i] != t[i]) {
-        if (slen == tlen)
-          return s.substr(i+1) == t.substr(i+1);
-        if (slen < tlen)
-          return s.substr(i) == t.substr(i+1);
-        return s.substr(i+1) == t.substr(i);
+    if (s.size() > t.size()) swap(s, t);
+
+    if (t.size() - s.size() > 1) return false;
+
+    if (s.size() == t.size()) {
+      int cnt = 0;
+      for (int i = 0; i < s.size(); ++i) {
+        cnt += s[i] != t[i];
+        if (cnt > 1) return false;
       }
+      return 1 == cnt;
     }
 
-    return abs(slen - tlen) == 1;
+    for (int i = 0, j = 0; i < s.size(); ++j) {
+      i += s[i] == t[j];
+      if (j - i > 1) return false;
+    }
+    return true;
   }
 };
