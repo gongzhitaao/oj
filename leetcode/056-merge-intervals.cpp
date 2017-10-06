@@ -13,24 +13,26 @@ class Solution
   vector<Interval> merge(vector<Interval>& intervals)
   {
     vector<Interval> ret;
-    int n = intervals.size();
-    if (!n) return ret;
+    if (intervals.empty()) return ret;
 
-    sort(intervals.begin(), intervals.end(),
-         [](Interval &a, Interval &b) {
-           return a.start < b.start;
-         });
+    auto cmp = [](const Interval& a, const Interval& b) {
+      return a.start < b.start || a.start == b.start && a.end > b.end;
+    };
+
+    sort(intervals.begin(), intervals.end(), cmp);
+
     Interval itv = intervals[0];
-    for (int i = 1; i < n; ++i) {
-      Interval &cur = intervals[i];
+    for (int i = 1, last = itv.start; i < intervals.size(); ++i) {
+      Interval& cur = intervals[i];
+      if (cur.start == last) continue;
       if (cur.start > itv.end) {
         ret.push_back(itv);
         itv = cur;
-      } else {
+      } else
         itv.end = max(itv.end, cur.end);
-      }
     }
     ret.push_back(itv);
+
     return ret;
   }
 };
