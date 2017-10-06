@@ -9,31 +9,30 @@
  */
 class BSTIterator
 {
+  stack<TreeNode*> trace_;
+
  public:
   BSTIterator(TreeNode *root)
   {
-    for (TreeNode* n = root; n; n = n->left)
-      stk_.push_back(n);
+    for (TreeNode* cur = root; cur; cur = cur->left)
+      trace_.push(cur);
   }
 
   /** @return whether we have a next smallest number */
   bool hasNext()
   {
-    return stk_.size();
+    return trace_.size();
   }
 
   /** @return the next smallest number */
   int next()
   {
-    TreeNode* ret = stk_.back();
-    stk_.pop_back();
-    for (TreeNode* n = ret->right; n; n = n->left)
-      stk_.push_back(n);
-    return ret->val;
+    TreeNode* elm = trace_.top();
+    trace_.pop();
+    for (TreeNode* cur = elm->right; cur; cur = cur->left)
+      trace_.push(cur);
+    return elm->val;
   }
-
- private:
-  vector<TreeNode*> stk_;
 };
 
 /**
