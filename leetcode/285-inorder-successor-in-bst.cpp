@@ -12,18 +12,24 @@ class Solution
  public:
   TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p)
   {
-    TreeNode* pre = nullptr;
-    return inorder(root, p, pre);
+    TreeNode* tmp;
+    if (root)
+      return inorder(root, tmp, p);
+    return nullptr;
   }
 
- private:
-  TreeNode* inorder(TreeNode* node, TreeNode* target, TreeNode*& pre)
+  TreeNode* inorder(TreeNode* cur, TreeNode*& par, TreeNode* p)
   {
-    if (!node) return nullptr;
-    TreeNode* ret = inorder(node->left, target, pre);
+    TreeNode* ret = nullptr;
+
+    if (cur->left) ret = inorder(cur->left, par, p);
     if (ret) return ret;
-    if (pre == target) return node;
-    pre = node;
-    return inorder(node->right, target, pre);
+
+    if (par == p) return cur;
+    par = cur;
+
+    if (cur->right) ret = inorder(cur->right, par, p);
+
+    return ret;
   }
 };
