@@ -9,22 +9,24 @@
 class Solution
 {
  public:
-  typedef UndirectedGraphNode Node;
-  Node *cloneGraph(Node *node)
+  UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node)
   {
-    if (!node) return nullptr;
-    unordered_map<int, Node*> v;
-    return dfs(node, v);
+    unordered_map<int, UndirectedGraphNode*> visited;
+    return dfs(node, visited);
   }
 
-  Node *dfs(Node *src, unordered_map<int, Node*>& v)
+  UndirectedGraphNode* dfs(UndirectedGraphNode* cur,
+                           unordered_map<int, UndirectedGraphNode*>& visited)
   {
-    if (v.find(src->label) != v.end())
-      return v[src->label];
-    Node *node = new Node(src->label);
-    v[src->label] = node;
-    for (Node *n : src->neighbors)
-      node->neighbors.emplace_back(dfs(n, v));
-    return node;
+    if (!cur) return nullptr;
+    if (visited.find(cur->label) != visited.end()) return visited[cur->label];
+
+    UndirectedGraphNode* cp = new UndirectedGraphNode(cur->label);
+    visited[cp->label] = cp;
+
+    for (auto* elm : cur->neighbors)
+      cp->neighbors.push_back(dfs(elm, visited));
+
+    return cp;
   }
 };
