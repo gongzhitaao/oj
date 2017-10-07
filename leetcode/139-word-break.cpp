@@ -1,43 +1,45 @@
 class Solution
 {
+  struct Node {
+    bool word;
+    unordered_map<char, Node*> next;
+
+    Node() : word(false){};
+  };
+
  public:
   bool wordBreak(string s, vector<string>& wordDict)
   {
-    struct node;
-    typedef shared_ptr<node> nodeptr;
+    Node* dict = new Node();
 
-    struct node {
-      bool word;
-      unordered_map<char, nodeptr> next;
-
-      node(bool w = false) : word(w) { }
-    };
-
-    nodeptr head = make_shared<node>();
     for (string& word : wordDict) {
-      nodeptr n = head;
-      for (int i = word.size() - 1; i >= 0; --i) {
-        char ch = word[i];
-        if (n->next.find(ch) == n->next.end()) {
-          nodeptr p = make_shared<node>();
-          n->next[ch] = p;
-        }
-        n = n->next[ch];
+      Node* cur = dict;
+      for (char ch : word) {
+        if (cur->next.find(ch) == cur->next.end()) cur->next[ch] = new Node();
+        cur = cur->next[ch];
       }
-      n->word = true;
+      cur->word = true;
     }
 
-    vector<bool> dp(s.size() + 1, false);
-    dp[0] = true;
-    for (int i = 0; i < s.size(); ++i) {
-      nodeptr n = head;
-      for (int j = i; j >= 0 && n->next.find(s[j]) != n->next.end(); --j) {
-        n = n->next[s[j]];
-        if (n->word && (dp[i+1] = dp[j]))
-          break;
+    const int n = s.size();
+    vector<bool> memo(n + 1, true);
+    for (int i = 1; i <= n; ++i) {
+      for (int j = 1; j <= i; ++j) {
+        memo[i] = memo[j - 1] && contains(dict, s.substr(j - 1, i - j + 1));
+        if (memo[i]) break;
       }
     }
 
-    return dp.back();
+    return memo.back();
+  }
+
+  bool contains(Node* dict, const string& word)
+  {
+    Node* cur = dict;
+    for (char ch : word) {
+      if (cur->next.find(ch) == cur->next.end()) return false;
+      cur = cur->next[ch];
+    }
+    return cur->word;
   }
 };
