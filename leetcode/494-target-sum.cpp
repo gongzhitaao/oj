@@ -3,17 +3,15 @@ class Solution
  public:
   int findTargetSumWays(vector<int>& nums, int S)
   {
-    return dfs(nums, 0, S);
-  }
+    int sum = accumulate(nums.begin(), nums.end(), 0);
+    if ((sum + S) % 2 || sum < S) return 0;
+    int target = (sum + S) / 2;
 
-  int dfs(const vector<int>& nums, int i0, int target)
-  {
-    if (i0 == nums.size()) return 0 == target;
-
-    if (0 == nums[i0])
-      return 2 * dfs(nums, i0 + 1, target);
-    else
-      return dfs(nums, i0 + 1, target - nums[i0]) +
-             dfs(nums, i0 + 1, target + nums[i0]);
+    vector<int> cnt(target + 1, 0);
+    cnt[0] = 1;
+    for (int n : nums)
+      for (int i = target; i >= n; --i)
+        cnt[i] += cnt[i - n];
+    return cnt.back();
   }
 };
