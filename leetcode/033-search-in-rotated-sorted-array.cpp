@@ -5,25 +5,23 @@ class Solution
   {
     if (nums.empty()) return -1;
 
-    int pivot = nums[0], n = nums.size();
-    if (target == pivot) return 0;
-    int lo = 0, mi, hi = n - 1;
-    if (target > pivot) {
-      while (lo < hi) {
-        mi = lo + (hi - lo + 1) / 2;
-        if (target == nums[mi]) return mi;
-        if (target < nums[mi] || nums[mi] < pivot) hi = mi - 1;
-        else lo = mi + 1;
-      }
-    } else {
-      while (lo < hi) {
-        mi = lo + (hi - lo + 1) / 2;
-        if (target == nums[mi]) return mi;
-        if (target > nums[mi] || nums[mi] > pivot) lo = mi + 1;
-        else hi = mi - 1;
-      }
+    int lo, mi, hi;
+
+    for (lo = 0, hi = nums.size() - 1; lo < hi; ) {
+      mi = lo + (hi - lo + 1) / 2;
+      if (nums[mi] > nums[0]) lo = mi;
+      else hi = mi - 1;
     }
 
-    return nums[hi] == target ? hi : -1;
+    if (target < nums[0]) lo = lo + 1, hi = nums.size() - 1;
+    else hi = lo, lo = 0;
+
+    for (; lo < hi; ) {
+      mi = lo + (hi - lo) / 2;
+      if (nums[mi] < target) lo = mi + 1;
+      else hi = mi;
+    }
+
+    return lo <= hi && nums[lo] == target ? lo : -1;
   }
 };
