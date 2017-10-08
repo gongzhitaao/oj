@@ -3,16 +3,17 @@ class Solution
  public:
   vector<vector<string>> groupAnagrams(vector<string>& strs)
   {
-    unordered_map<int, vector<string> > dict;
-    hash<string> fn;
-    for (const string& str : strs) {
-      string s = str;
-      sort(s.begin(), s.end());
-      dict[fn(s)].push_back(str);
+    unordered_map<string, vector<string>> kv;
+    for (string& s : strs) {
+      string t = s;
+      sort(t.begin(), t.end());
+      kv[t].push_back(s);
     }
+
     vector<vector<string>> ret;
-    for (auto& elm : dict)
+    for (auto& elm : kv)
       ret.push_back(elm.second);
+
     return ret;
   }
 };
