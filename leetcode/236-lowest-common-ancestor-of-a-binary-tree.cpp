@@ -12,23 +12,14 @@ class Solution
  public:
   TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q)
   {
-    TreeNode* ret = nullptr;
-    dfs(root, p, q, ret);
-    return ret;
+    return lca(root, p, q);
   }
 
-  int dfs(TreeNode* node, TreeNode* p, TreeNode* q, TreeNode*& ret)
+  TreeNode* lca(TreeNode* cur, TreeNode* p, TreeNode* q)
   {
-    if (!node) return 0;
-
-    int found = (node == p) | ((node == q) << 1) | dfs(node->left, p, q, ret);
-    if (3 == found && !ret) ret = node;
-
-    if (ret) return found;
-
-    found |= dfs(node->right, p, q, ret);
-    if (3 == found && !ret) ret = node;
-
-    return found;
+    if (!cur || cur == p || cur == q) return cur;
+    TreeNode* l = lca(cur->left, p, q);
+    TreeNode* r = lca(cur->right, p, q);
+    return !l ? r : !r ? l : cur;
   }
 };
