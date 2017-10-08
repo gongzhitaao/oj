@@ -3,24 +3,18 @@ class Solution
  public:
   int maximumSwap(int num)
   {
-    vector<int> n, p;
-    for (int i = num, j = 0; i; i /= 10) {
-      int k = i % 10;
-      n.push_back(k);
-      if (k > n[j]) j = n.size() - 1;
-      p.push_back(j);
-    }
-
-    for (int i = p.size() - 1; i >= 0; --i) {
-      if (n[i] != n[p[i]]) {
-        swap(n[i], n[p[i]]);
+    string numstr = to_string(num);
+    const int n = numstr.size();
+    vector<int> pos(n, 0);
+    for (int i = n - 1, maxpos = n - 1; i >= 0; --i)
+      if (numstr[i] > numstr[maxpos]) pos[i] = maxpos = i;
+      else if (numstr[i] < numstr[maxpos]) pos[i] = maxpos;
+      else pos[i] = i;
+    for (int i = 0; i < n; ++i)
+      if (pos[i] != i) {
+        swap(numstr[i], numstr[pos[i]]);
         break;
       }
-    }
-
-    int ret = 0;
-    for (auto it = n.rbegin(); it != n.rend(); ++it)
-      ret = ret * 10 + *it;
-    return ret;
+    return stoi(numstr);
   }
 };
