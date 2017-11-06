@@ -3,12 +3,15 @@ class Solution
  public:
   int maxArea(vector<int>& height)
   {
-    int ret = 0;
-    for (int i = 0, j = height.size() - 1; i < j; ) {
-      ret = max(ret, min(height[i], height[j]) * (j - i));
-      if (height[i] < height[j]) ++i;
-      else --j;
+    int maxarea = 0;
+    for (int i = 0, j = height.size() - 1, w, h; i < j;) {
+      w = j - i;
+      if (height[j] >= height[i])
+        h = height[i++];
+      else
+        h = height[j--];
+      maxarea = max(maxarea, w * h);
     }
-    return ret;
+    return maxarea;
   }
 };
