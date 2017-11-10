@@ -1,30 +1,25 @@
-class Solution {
+class Solution
+{
+  vector<int> nums_;
  public:
-  Solution(vector<int> nums) {
-    nums_ = nums;
-  }
+  Solution(vector<int> nums) : nums_(nums) {}
 
   /** Resets the array to its original configuration and return it. */
-  vector<int> reset() {
+  vector<int> reset()
+  {
     return nums_;
   }
 
   /** Returns a random shuffling of the array. */
-  vector<int> shuffle() {
-    vector<int> nums(nums_);
-    mt19937 gen(rd_());
-    int n = nums.size();
-    for (int i = 0; i < n; ++i) {
-      uniform_int_distribution<> dis(i, n - 1);
-      int j = dis(gen);
-      if (j != i) swap(nums[i], nums[j]);
+  vector<int> shuffle()
+  {
+    vector<int> ret = nums_;
+    for (int i = 0; i < ret.size(); ++i) {
+      int j = rand() % (ret.size() - i) + i;
+      if (i != j) swap(ret[i], ret[j]);
     }
-    return nums;
+    return ret;
   }
-
- private:
-  vector<int> nums_;
-  random_device rd_;
 };
 
 /**
