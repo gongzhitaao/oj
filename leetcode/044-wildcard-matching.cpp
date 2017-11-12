@@ -3,34 +3,25 @@ class Solution
  public:
   bool isMatch(string s, string p)
   {
-    const int ns = s.size(), np = p.size();
-
-    if (s.empty()) {
-      for (int i = 0; i < np; ++i)
-        if ('*' != p[i]) return false;
-      return true;
-    }
-
-    if (p.empty()) return false;
-
-    vector<vector<bool>> m(ns + 1, vector<bool>(np + 1, false));
-    m[0][0] = true;
-    for (int i = 0; i < np && '*' == p[i]; ++i)
-      m[0][i + 1] = true;
-
-    for (int i = 1; i <= ns; ++i) {
-      for (int j = 1; j <= np; ++j) {
-        if ('?' == p[j - 1]) {
-          m[i][j] = m[i - 1][j - 1];
-        } else if ('*' == p[j - 1]) {
-          for (int k = 0; k <= i && !m[i][j]; ++k)
-            m[i][j] = m[k][j - 1];
-        } else {
-          m[i][j] = s[i - 1] == p[j - 1] && m[i - 1][j - 1];
-        }
+    int i = 0, j = 0;
+    for (int i0 = -1, j0 = -1; i < s.size(); ++j) {
+      if (j == p.size()) {
+        if (i0 < 0) return false;
+        i = ++i0;
+        j = j0;
+      } else if ('*' == p[j]) {
+        i0 = i;
+        j0 = j;
+      } else if (s[i++] != p[j] && '?' != p[j]) {
+        if (i0 < 0) return false;
+        i = ++i0;
+        j = j0;
       }
     }
 
-    return m[ns][np];
+    for (; j < p.size() && '*' == p[j]; ++j)
+      ;
+
+    return s.size() == i && p.size() == j;
   }
 };
