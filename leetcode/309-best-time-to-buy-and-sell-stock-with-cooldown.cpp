@@ -1,16 +1,14 @@
-class Solution {
-public:
-  int maxProfit(vector<int>& prices) {
-    if (prices.size() <= 1) return 0;
-
-    int n = 0, y = 0, nn = 0;
-    for (int i = 1; i < prices.size(); ++i) {
-      int t = y;
-      y = max(y, nn) + prices[i] - prices[i - 1];
-      nn = n;
-      n = max(n, t);
+class Solution
+{
+ public:
+  int maxProfit(vector<int>& prices)
+  {
+    long long hold = numeric_limits<int>::min(), sell[2] = {0, 0};
+    for (int i = 0; i < prices.size(); ++i) {
+      long long tmp = sell[i % 2];
+      sell[i % 2] = max(sell[1 - (i % 2)], hold + prices[i]);
+      hold = max(hold, tmp - prices[i]);
     }
-
-    return max(n, y);
+    return max(sell[0], sell[1]);
   }
 };
