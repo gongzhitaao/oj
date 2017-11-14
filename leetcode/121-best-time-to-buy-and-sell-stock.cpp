@@ -3,18 +3,11 @@ class Solution
  public:
   int maxProfit(vector<int>& prices)
   {
-    if (prices.empty()) return 0;
-
-    int maxprof = 0;
-    int minprice = prices[0];
-
-    for (int i = 1; i < prices.size(); ++i) {
-      if (prices[i] <= minprice)
-        minprice = prices[i];
-      else if (prices[i] - minprice > maxprof)
-        maxprof = prices[i] - minprice;
+    long long hold = numeric_limits<int>::min(), sell = 0;
+    for (int i = 0; i < prices.size(); ++i) {
+      sell = max(sell, hold + prices[i]);
+      hold = max(hold, 0LL - prices[i]);
     }
-
-    return maxprof;
+    return sell;
   }
 };
