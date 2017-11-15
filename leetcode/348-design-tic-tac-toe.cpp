@@ -1,12 +1,17 @@
-class TicTacToe {
+class TicTacToe
+{
+  vector<vector<int>> vsum_, hsum_;
+  int dsum0_, dsum1_, winner_;
+
  public:
   /** Initialize your data structure here. */
   TicTacToe(int n)
   {
-    n_ = n;
-    rowcnt_ = vector<int>(n, 0);
-    colcnt_ = vector<int>(n, 0);
-    d0cnt_ = d1cnt_ = 0;
+    vsum_ = vector<vector<int>>(2, vector<int>(n, 0));
+    hsum_ = vector<vector<int>>(2, vector<int>(n, 0));
+    dsum0_ = 0;
+    dsum1_ = 0;
+    winner_ = 0;
   }
 
   /** Player {player} makes a move at ({row}, {col}).
@@ -14,25 +19,28 @@ class TicTacToe {
       @param col The column of the board.
       @param player The player, can be either 1 or 2.
       @return The current winning condition, can be either:
-      0: No one wins.
-      1: Player 1 wins.
-      2: Player 2 wins. */
+              0: No one wins.
+              1: Player 1 wins.
+              2: Player 2 wins. */
   int move(int row, int col, int player)
   {
-    int m = 1 == player ? -1 : 1;
-    rowcnt_[row] += m;
-    if (rowcnt_[row] == m * n_) return player;
-    colcnt_[col] += m;
-    if (colcnt_[col] == m * n_) return player;
-    if (row == col && (d0cnt_ += m) == m * n_ ||
-        row+col == n_-1 && (d1cnt_ += m) == m * n_) return player;
-    return 0;
-  }
+    if (winner_) return winner_;
 
- private:
-  vector<int> rowcnt_, colcnt_;
-  int d0cnt_, d1cnt_;
-  int n_;
+    int inc = 2 * player - 3;
+    int n = vsum_[0].size();
+
+    vsum_[player - 1][col] += inc;
+    hsum_[player - 1][row] += inc;
+    if (row == col) dsum0_ += inc;
+    if (row + col == n - 1) dsum1_ += inc;
+
+    n *= inc;
+    if (n == vsum_[player - 1][col] || n == hsum_[player - 1][row] ||
+        n == dsum0_ || n == dsum1_)
+      winner_ = player;
+
+    return winner_;
+  }
 };
 
 /**
