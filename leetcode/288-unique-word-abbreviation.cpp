@@ -1,37 +1,32 @@
-class ValidWordAbbr {
+class ValidWordAbbr
+{
+  unordered_map<string, int> abbr_;
+  unordered_set<string> dict_;
+
  public:
-  ValidWordAbbr(vector<string> &dictionary)
+  ValidWordAbbr(vector<string> dictionary)
   {
-    for (string& w : dictionary) {
-      if (dict_.find(w) == dict_.end()) {
-        dict_.insert(w);
-        ++abbr_[make_key(w)];
-      }
+    for (string& word : dictionary) {
+      if (word.empty() || dict_.find(word) != dict_.end()) continue;
+      dict_.insert(word);
+      int n = word.size();
+      string key = n > 2 ? word[0] + to_string(n - 2) + word.back() : word;
+      ++abbr_[key];
     }
   }
 
   bool isUnique(string word)
   {
-    string key = make_key(word);
-    if (dict_.find(word) == dict_.end())
-      return abbr_.find(key) == abbr_.end();
-    return abbr_[key] < 2;
+    if (word.empty()) return true;
+    int n = word.size();
+    string key = n > 2 ? word[0] + to_string(n - 2) + word.back() : word;
+    return abbr_.find(key) == abbr_.end() ||
+           1 == abbr_[key] && dict_.find(word) != dict_.end();
   }
-
-  inline string make_key(string& w)
-  {
-    return w[0] +
-        (w.size() > 2 ? to_string(w.size() - 2) : "") +
-        w[w.size() - 1];
-  }
-
- private:
-  unordered_map<string, int> abbr_;
-  unordered_set<string> dict_;
 };
 
-
-// Your ValidWordAbbr object will be instantiated and called as such:
-// ValidWordAbbr vwa(dictionary);
-// vwa.isUnique("hello");
-// vwa.isUnique("anotherWord");
+/**
+ * Your ValidWordAbbr object will be instantiated and called as such:
+ * ValidWordAbbr obj = new ValidWordAbbr(dictionary);
+ * bool param_1 = obj.isUnique(word);
+ */
