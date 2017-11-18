@@ -10,16 +10,17 @@
 class Solution
 {
  public:
-  bool isValidBST(TreeNode* root) {
-    TreeNode* par = nullptr;
-    return inorder(root, par);
+  bool isValidBST(TreeNode* root)
+  {
+    TreeNode* pre = nullptr;
+    return inorder(root, pre);
   }
 
-  bool inorder(TreeNode* cur, TreeNode*& par)
+  bool inorder(TreeNode* cur, TreeNode*& pre)
   {
     if (!cur) return true;
-    if (!inorder(cur->left, par) || par && par->val >= cur->val) return false;
-    par = cur;
-    return inorder(cur->right, par);
+    if (!inorder(cur->left, pre) || pre && pre->val >= cur->val) return false;
+    pre = cur;
+    return inorder(cur->right, pre);
   }
 };
