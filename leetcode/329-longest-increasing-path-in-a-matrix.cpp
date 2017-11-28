@@ -1,37 +1,40 @@
 class Solution
 {
  public:
-  int longestIncreasingPath(vector<vector<int> >& matrix)
+  int longestIncreasingPath(vector<vector<int>>& matrix)
   {
-    if (matrix.empty() || matrix[0].empty()) return 0;
-    int nrow = matrix.size(), ncol = matrix[0].size();
-    vector<vector<int> > d(nrow, vector<int>(ncol, 0));
-    int maxlen = 1;
-    for (int i = 0; i < nrow; ++i) {
-      for (int j = 0; j < ncol; ++j) {
-        int len = dfs(matrix, d, i, j);
-        if (len > maxlen) maxlen = len;
-      }
-    }
+    int maxlen = 0;
+    if (matrix.empty() || matrix[0].empty()) return maxlen;
+
+    const int row = matrix.size(), col = matrix[0].size();
+
+    vector<vector<int>> len(row, vector<int>(col, 0));
+    for (int i = 0; i < row; ++i)
+      for (int j = 0; j < col; ++j)
+        if (dfs(matrix, i, j, len) > maxlen) maxlen = len[i][j];
+
     return maxlen;
   }
 
-  int dfs(vector<vector<int> >& mat, vector<vector<int> >& d,
-          int r, int c)
+  int dfs(vector<vector<int>>& mat, int i, int j, vector<vector<int>>& len)
   {
-    if (d[r][c] > 0) return d[r][c];
+    if (len[i][j]) return len[i][j];
+    const int row = mat.size(), col = mat[0].size();
 
-    int maxlen = 0;
-    int nrow = mat.size(), ncol = mat[0].size();
-    static const vector<int> step = {-1, 0, 1, 0, -1};
-    for (int i = 0; i < 4; ++i) {
-      int rr = r + step[i], cc = c + step[i+1];
-      if (0 <= rr && rr < nrow && 0 <= cc && cc < ncol &&
-          mat[rr][cc] > mat[r][c]) {
-        int len = dfs(mat, d, rr, cc);
-        if (len > maxlen) maxlen = len;
-      }
-    }
-    return d[r][c] = maxlen + 1;
+    len[i][j] = 1;
+    if (i > 0 && mat[i][j] > mat[i - 1][j] &&
+        dfs(mat, i - 1, j, len) + 1 > len[i][j])
+      len[i][j] = len[i - 1][j] + 1;
+    if (j < col - 1 && mat[i][j] > mat[i][j + 1] &&
+        dfs(mat, i, j + 1, len) + 1 > len[i][j])
+      len[i][j] = len[i][j + 1] + 1;
+    if (i < row - 1 && mat[i][j] > mat[i + 1][j] &&
+        dfs(mat, i + 1, j, len) + 1 > len[i][j])
+      len[i][j] = len[i + 1][j] + 1;
+    if (j > 0 && mat[i][j] > mat[i][j - 1] &&
+        dfs(mat, i, j - 1, len) + 1 > len[i][j])
+      len[i][j] = len[i][j - 1] + 1;
+
+    return len[i][j];
   }
 };
