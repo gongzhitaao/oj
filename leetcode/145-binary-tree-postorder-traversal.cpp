@@ -15,16 +15,28 @@ class Solution
     vector<int> ret;
     if (!root) return ret;
 
-    stack<TreeNode*> p, q;
-    for (p.push(root); p.size();) {
-      TreeNode* cur = p.top();
-      q.push(cur);
-      p.pop();
-      if (cur->left) p.push(cur->left);
-      if (cur->right) p.push(cur->right);
+    stack<TreeNode*> s;
+    for (TreeNode* cur = root; true;) {
+      for (; cur; cur = cur->left) {
+        if (cur->right) s.push(cur->right);
+        s.push(cur);
+      }
+
+      cur = s.top();
+      s.pop();
+
+      if (cur->right && s.size() && s.top() == cur->right) {
+        s.pop();
+        s.push(cur);
+        cur = cur->right;
+      } else {
+        ret.push_back(cur->val);
+        cur = nullptr;
+      }
+
+      if (s.empty()) break;
     }
 
-    for (; q.size(); q.pop()) ret.push_back(q.top()->val);
     return ret;
   }
 };
