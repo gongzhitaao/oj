@@ -11,27 +11,19 @@ class Solution
  public:
   RandomListNode *copyRandomList(RandomListNode *head)
   {
-    unordered_map<RandomListNode *, RandomListNode *> visited;
-    return dfs(head, visited);
+    unordered_map<RandomListNode *, RandomListNode *> v;
+    v[nullptr] = nullptr;
+    return dfs(head, v);
   }
 
-  RandomListNode *dfs(
-    RandomListNode *node,
-    unordered_map<RandomListNode *, RandomListNode *> &visited)
+  RandomListNode *dfs(RandomListNode *cur,
+                      unordered_map<RandomListNode *, RandomListNode *> &v)
   {
-    if (!node) return node;
-
-    RandomListNode *new_node = new RandomListNode(node->label);
-    visited[node] = new_node;
-
-    if (visited.find(node->next) == visited.end())
-      visited[node->next] = dfs(node->next, visited);
-    new_node->next = visited[node->next];
-
-    if (visited.find(node->random) == visited.end())
-      visited[node->random] = dfs(node->random, visited);
-    new_node->random = visited[node->random];
-
-    return new_node;
+    if (v.find(cur) != v.end()) return v[cur];
+    RandomListNode *ret = new RandomListNode(cur->label);
+    v[cur] = ret;
+    ret->next = dfs(cur->next, v);
+    ret->random = dfs(cur->random, v);
+    return ret;
   }
 };
