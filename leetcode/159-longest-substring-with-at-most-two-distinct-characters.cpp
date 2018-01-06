@@ -3,24 +3,14 @@ class Solution
  public:
   int lengthOfLongestSubstringTwoDistinct(string s)
   {
-    int n = s.size();
-    if (!n) return 0;
-
-    unordered_map<char, int> buf;
-    int prelen = 0, maxlen = 0;
-    for (int i = 0; i < n; ++i) {
-      if (buf.find(s[i]) == buf.end() && 2 == buf.size()) {
-        for (auto ch : buf) {
-          if (ch.first != s[i-1]) {
-            prelen = i - ch.second;
-            buf.erase(ch.first);
-            break;
-          }
-        }
-      } else ++prelen;
-      buf[s[i]] = i;
-      if (prelen > maxlen) maxlen = prelen;
+    vector<int> cnt(128, 0);
+    int total = 2, len = 0;
+    for (int i = 0, j = 0; j < s.size(); ++j) {
+      if (1 == ++cnt[s[j]]) --total;
+      for (; total < 0; ++i)
+        if (0 == --cnt[s[i]]) ++total;
+      if (j - i + 1 > len) len = j - i + 1;
     }
-    return maxlen;
+    return len;
   }
 };
