@@ -3,14 +3,14 @@ class Solution
  public:
   int threeSumSmaller(vector<int>& nums, int target)
   {
+    int cnt = 0, n = nums.size();
     sort(nums.begin(), nums.end());
-    int cnt = 0, end = nums.size();
-    for (int i = 0; i < end; ++i) {
-      for (int j = i+1, k = end - 1; j < k; ) {
-        if (nums[i]+nums[j]+nums[k] < target)
-          cnt += k - j++;
-        else --k;
-      }
+    for (int k = 0; k < n - 2; ++k) {
+      for (int i = k + 1, j = n - 1; i < j;)
+        if (nums[i] + nums[k] + nums[j] < target)
+          cnt += j - i, ++i;
+        else
+          --j;
     }
     return cnt;
   }
