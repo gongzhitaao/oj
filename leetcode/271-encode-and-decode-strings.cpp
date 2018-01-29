@@ -5,8 +5,7 @@ class Codec
   string encode(vector<string>& strs)
   {
     string ret;
-    for (string& w : strs)
-      ret += to_string(w.size()) + "|" + w;
+    for (string& w : strs) ret += to_string(w.size()) + "|" + w;
     return ret;
   }
 
@@ -14,10 +13,10 @@ class Codec
   vector<string> decode(string s)
   {
     vector<string> ret;
-    for (int i = 0; i < s.size(); ) {
+    for (int i = 0; i < s.size();) {
       int j = s.find_first_of('|', i);
-      int size = stoi(s.substr(i, j-i));
-      string t = s.substr(j+1, size);
+      int size = stoi(s.substr(i, j - i));
+      string t = s.substr(j + 1, size);
       ret.push_back(t);
       i = j + 1 + t.size();
     }
