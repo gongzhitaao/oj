@@ -3,14 +3,23 @@ class Solution
  public:
   int numSquares(int n)
   {
-    vector<int> cnt{0};
-    while (cnt.size() <= n) {
-      int m = cnt.size();
-      int mincnt = numeric_limits<int>::max();
-      for (int i = 1; i*i <= m; ++i)
-        mincnt = min(mincnt, cnt[m-i*i]+1);
-      cnt.push_back(mincnt);
+    int sqrtn = sqrt(n);
+    if (sqrtn * sqrtn == n) return 1;
+
+    vector<int> cnt(n + 1, 0);
+    for (int i = 1; i <= sqrtn; ++i)
+      cnt[i * i] = 1;
+
+    for (int i = 2; i <= n; ++i) {
+      if (1 == cnt[i]) continue;
+      cnt[i] = i;
+      for (int j = 1, end = sqrt(i); j <= end; ++j) {
+        int k = j * j;
+        if (cnt[k] + cnt[i - k] < cnt[i])
+          cnt[i] = cnt[k] + cnt[i - k];
+      }
     }
+
     return cnt[n];
   }
 };
