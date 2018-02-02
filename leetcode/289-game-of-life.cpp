@@ -1,7 +1,7 @@
 class Solution
 {
  public:
-  void gameOfLife(vector<vector<int> >& board)
+  void gameOfLife(vector<vector<int>>& board)
   {
     int nrow, ncol;
     if (!(nrow = board.size()) || !(ncol = board[0].size())) return;
@@ -11,9 +11,8 @@ class Solution
       for (int j = 0; j < ncol; ++j) {
         if (!(board[i][j] % 10)) continue;
         for (int k = 0; k < step.size() - 1; ++k) {
-          int ii = i + step[k], jj = j + step[k+1];
-          if (0 <= ii && ii < nrow && 0 <= jj && jj < ncol)
-            board[ii][jj] += 10;
+          int ii = i + step[k], jj = j + step[k + 1];
+          if (0 <= ii && ii < nrow && 0 <= jj && jj < ncol) board[ii][jj] += 10;
         }
       }
     }
@@ -25,7 +24,8 @@ class Solution
           board[i][j] = 1;
         else if (n < 2 || n > 3)
           board[i][j] = 0;
-        else board[i][j] %= 10;
+        else
+          board[i][j] %= 10;
       }
     }
   }
