@@ -3,14 +3,13 @@ class Solution
  public:
   typedef pair<int, int> id;
 
-  vector<int>
-  numIslands2(int m, int n, vector<id>& positions)
+  vector<int> numIslands2(int m, int n, vector<id>& positions)
   {
     vector<int> ret;
     if (!m || !n) return ret;
 
-    vector<vector<int> > G(m, vector<int>(n, 0));
-    vector<vector<id> > P(m, vector<id>(n, {-1, -1}));
+    vector<vector<int>> G(m, vector<int>(n, 0));
+    vector<vector<id>> P(m, vector<id>(n, {-1, -1}));
 
     const vector<int> step = {-1, 0, 1, 0, -1};
     vector<int> counts;
@@ -21,7 +20,7 @@ class Solution
       P[i][j] = {i, j};
       ++cnt;
       for (int k = 0; k < 4; ++k) {
-        int r = i + step[k], c = j + step[k+1];
+        int r = i + step[k], c = j + step[k + 1];
         if (0 <= r && r < m && 0 <= c && c < n && G[r][c])
           cnt -= myunion(P, G, P[i][j], P[r][c]);
       }
@@ -30,8 +29,7 @@ class Solution
     return counts;
   }
 
-  int myunion(vector<vector<id> >& P, vector<vector<int> >& G,
-              id a, id b)
+  int myunion(vector<vector<id>>& P, vector<vector<int>>& G, id a, id b)
   {
     id pa = findpar(P, a), pb = findpar(P, b);
     if (pa == pb) return 0;
@@ -47,11 +45,10 @@ class Solution
     return 1;
   }
 
-  id findpar(vector<vector<id> >& P, id cur)
+  id findpar(vector<vector<id>>& P, id cur)
   {
     if (P[cur.first][cur.second] != cur)
-      P[cur.first][cur.second] =
-          findpar(P, P[cur.first][cur.second]);
+      P[cur.first][cur.second] = findpar(P, P[cur.first][cur.second]);
     return P[cur.first][cur.second];
   }
 };
