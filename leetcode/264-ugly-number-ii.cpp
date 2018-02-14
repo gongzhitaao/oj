@@ -3,27 +3,21 @@ class Solution
  public:
   int nthUglyNumber(int n)
   {
-    vector<int> uglies(n + 1, 1);
-
-    int p2 = 1, p3 = 1, p5 = 1;
-    for (int i = 2; i <= n; ++i) {
-      int n2 = uglies[p2] * 2,
-          n3 = uglies[p3] * 3,
-          n5 = uglies[p5] * 5;
-      if (n2 < n3) {
-        if (n2 < n5) uglies[i] = n2, ++p2;
-        else if (n2 > n5) uglies[i] = n5, ++p5;
-        else uglies[i] = n2, ++p2, ++p5;
-      } else if (n2 > n3) {
-        if (n3 < n5) uglies[i] = n3, ++p3;
-        else if (n3 > n5) uglies[i] = n5, ++p5;
-        else uglies[i] = n3, ++p3, ++p5;
-      } else {
-        if (n2 < n5) uglies[i] = n2, ++p2, ++p3;
-        else if (n2 > n5) uglies[i] = n5, ++p5;
-        else uglies[i] = n5, ++p2, ++p3, ++p5;
+    vector<int> ugly(n + 1, numeric_limits<int>::max());
+    vector<int> primes{2, 3, 5};
+    vector<int> ind(3, 1);
+    ugly[1] = 1;
+    for (int i = 2, minj, minv; i <= n; ++i) {
+      minv = numeric_limits<int>::max();
+      for (int j = 0; j < 3; ++j) {
+        int cur = primes[j] * ugly[ind[j]];
+        if (cur < minv) minj = j, minv = cur;
       }
+      ++ind[minj];
+      ugly[i] = minv;
+      for (int j = 0; j < 3; ++j)
+        if (primes[j] * ugly[ind[j]] == ugly[i]) ++ind[j];
     }
-    return uglies[n];
+    return ugly[n];
   }
 };
