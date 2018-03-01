@@ -1,31 +1,35 @@
 class Solution
 {
  public:
-  vector<string> findItinerary(vector<pair<string, string> > tickets)
+  vector<string> findItinerary(vector<pair<string, string>> tickets)
   {
-    unordered_map<string, map<string, int> > g;
-    for (auto tic : tickets)
-      ++g[tic.first][tic.second];
-    vector<string> ret;
-    dfs(g, "JFK", ret, tickets.size());
+    unordered_map<string, vector<string>> g;
+    unordered_map<string, vector<bool>> v;
+    for (auto& elm : tickets) {
+      g[elm.first].push_back(elm.second);
+      v[elm.first].push_back(false);
+    }
+    for (auto& elm : g) sort(elm.second.begin(), elm.second.end());
+
+    vector<string> ret{"JFK"};
+    dfs(g, v, ret, tickets.size() + 1, "JFK");
     return ret;
   }
 
-  bool dfs(unordered_map<string, map<string, int> >& g,
-           string from, vector<string>& ret, int n)
+  bool dfs(unordered_map<string, vector<string>>& g,
+           unordered_map<string, vector<bool>>& v, vector<string>& ret, int n,
+           string cur)
   {
-    ret.push_back(from);
-    if (!n) return true;
-
-    for (auto& to : g[from]) {
-      if (!to.second) continue;
-      --to.second;
-      if (dfs(g, to.first, ret, n-1))
-        return true;
-      ++to.second;
+    vector<string>& nb = g[cur];
+    vector<bool>& visited = v[cur];
+    for (int i = 0; i < nb.size(); ++i) {
+      if (visited[i]) continue;
+      visited[i] = true;
+      ret.push_back(nb[i]);
+      if (dfs(g, v, ret, n, nb[i])) return true;
+      ret.pop_back();
+      visited[i] = false;
     }
-
-    ret.pop_back();
-    return false;
+    return ret.size() == n;
   }
 };
