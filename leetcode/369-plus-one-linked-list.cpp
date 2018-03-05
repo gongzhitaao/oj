@@ -11,20 +11,20 @@ class Solution
  public:
   ListNode* plusOne(ListNode* head)
   {
-    int carry = increment(head);
-    ListNode *ret = head;
-    if (carry > 0) {
-      ret = new ListNode(carry);
-      ret->next = head;
+    int carry = incr(head);
+    if (carry) {
+      ListNode* h = new ListNode(carry);
+      h->next = head;
+      head = h;
     }
-    return ret;
+    return head;
   }
 
-  int increment(ListNode* node)
+  int incr(ListNode* cur)
   {
-    if (!node) return 1;
-    int val = node->val + increment(node->next);
-    node->val = val % 10;
-    return val / 10;
+    if (!cur) return 1;
+    int sum = cur->val + incr(cur->next);
+    cur->val = sum % 10;
+    return sum / 10;
   }
 };
