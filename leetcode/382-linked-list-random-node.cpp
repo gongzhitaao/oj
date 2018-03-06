@@ -6,22 +6,19 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-class Solution {
+class Solution
+{
  public:
   /** @param head The linked list's head.
       Note that the head is guaranteed to be not null, so it contains
       at least one node. */
   Solution(ListNode* head)
   {
-    for (ListNode* cur = head; cur; cur = cur->next)
-      vals_.push_back(cur->val);
+    for (ListNode* cur = head; cur; cur = cur->next) vals_.push_back(cur->val);
   }
 
   /** Returns a random node's value. */
-  int getRandom()
-  {
-    return vals_[rand() % vals_.size()];
-  }
+  int getRandom() { return vals_[rand() % vals_.size()]; }
 
  private:
   vector<int> vals_;
